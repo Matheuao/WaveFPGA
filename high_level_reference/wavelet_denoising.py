@@ -57,10 +57,10 @@ def w_coef(mother_wavelet):
     g = np.zeros(h.size,dtype=float)
     for n in range(h.size): g[n]= ((-1)**(n+1) ) * h[g.size-n-1]
 
-    h math= h / math.sqrt(2)
+    h = h / math.sqrt(2)
     g = g / math.sqrt(2)
 
-    return g, hsample_rate, data = wavfile.read('sweep_4k.wav')
+    return g, h
 
 def threhsold(d_j, type_threshold, level):
 
@@ -100,7 +100,7 @@ def threhsold(d_j, type_threshold, level):
 def w_denoising(input, mother_wavelet, levels, type_threshold):
 
     ca = np.zeros((levels, input.size))
-    cd = np.zeros((levels, input.size))sample_rate, data = wavfile.read('sweep_4k.wav')
+    cd = np.zeros((levels, input.size))
     inv = np.zeros((levels, input.size))
     output = np.zeros(input.size)
 
