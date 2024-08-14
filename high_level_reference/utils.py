@@ -1,5 +1,28 @@
 import numpy as np
-from scipy.io import wavfile
+import json
+import pywt # just to get the coeficients in a json file
+
+
+def get_coef_json(wavelet_name,coef_json_path):
+# Get the mother wavelet coeficients and store in a json file
+#
+# Parameters:
+#   wavelet_name(string), examples:'db', 'sym', 'coif'
+#   coef_json_path(string), examples: 'coef_db.json'
+#
+    var = wavelet_name
+    dados = {}
+
+    for i in range(1,38): 
+        var = wavelet_name + str(i)
+        coef = pywt.Wavelet(var) 
+        dados[var]=coef.dec_lo
+
+    print(dados)    
+
+    with open(coef_json_path, 'w', encoding='utf-8') as arquivo:
+        json.dump(dados, arquivo, ensure_ascii=False, indent=4)
+
 
 
 def noisy_data(data, snr_val):
@@ -26,18 +49,18 @@ def noisy_data(data, snr_val):
     return noisy, noise
 
 def SNR (clean, noise):
-# Print the SNR (Signal to Noise Ratio) of the signal
+# Print the SNR (Signal to Noise Ratio) of the signal, also known as SNR in
 
-    power_clean = np.mean(abs(data.astype(np.int64)**2))
+    power_clean = np.mean(abs(clean.astype(np.int64)**2))
     power_noise = np.mean(np.abs(noise.astype(np.int64)**2))
     SNR = 10 * np.log10(power_clean / power_noise)
     print(f"SNR = {SNR}")
 
+def SDR (clean, denoised):
+    # Print the SDR (Signal to Distortion Ratio) of the signal, also known as SNR out
+    distortion = clean - denoised
+    power_clean = np.mean(abs(clean.astype(np.int64)**2))
+    power_distortion = np.mean(abs(distortion.astype(np.int64)**2))
+    SDR = 10 * np.log10(power_clean / power_distortion)
+    print(f"SNR = {SDR}")
 
-
-
-sample_rate, data = wavfile.read('sweep_4k.wav')
-out=np.zeros(data.size)
-out,noise = noisy_data(data,10.5) 
-SNR(data, noise)
-wavfile.write('sweep_noisy.wav', sample_rate, out.astype(np.int16))

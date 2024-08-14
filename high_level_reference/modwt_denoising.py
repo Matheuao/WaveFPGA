@@ -1,25 +1,34 @@
-# Author: Matheus A. de Oliveira
 # References: 
-#
-#
+#   D. Percival and A. Walden, Wavelet Methods for Time Series Analysis,
+#   ser. Cambridge Series in Statistical and Probabilistic Mathematics.
+#   Cambridge University Press, 2000
 #
 import numpy as np 
-import matplotlib.pyplot as plt
-from scipy.io import wavfile
 import math 
 import json
 
-
 def modwt(input, g, h, level):
-    approximation = np.zeros(input.size)
-    detail = np.zeros(input.size)
+# Generate the direct MODWT (Maximun Overlap Discreate Wavelet Transform)
+# using a piramidal algotithm
+#
+# Parameters:
+#    input (array-like)
+#    g (array-like): high-pass wavelets coeficients
+#    h (array-like): low-pass wavelets coeficients
+#    level(int) : level of decomposition of the signal
+# Returns:
+#    ca (array-like):(approximation) low frequencies present in the signal
+#    cd (array-like):(detail) high frequencies present in the signal
+
+    ca = np.zeros(input.size)
+    cd = np.zeros(input.size)
     
 
     for t in range(input.size):
         u = t
         
-        approximation[t] =  h[0] * input[t]
-        detail[t] = g[0] * input[t]
+        ca[t] =  h[0] * input[t]
+        cd[t] = g[0] * input[t]
 
         for n in range(1, h.size):
             
@@ -28,12 +37,25 @@ def modwt(input, g, h, level):
             if u < 0 :
                 u = input.size - 1
 
-            approximation[t] += h[n] * input[u] #low frequencies 
-            detail[t] += g[n] * input[u]  #high frequencies 
+            ca[t] += h[n] * input[u] 
+            cd[t] += g[n] * input[u]  
             
-    return approximation, detail
+    return ca, cd
+
 
 def imodwt(ca, cd, g, h, level):
+# Generate the inverse MODWT (Maximun Overlap Discreate Wavelet Transform)
+# using a piramidal algotithm
+#
+# Parameters:
+#    ca (array-like): the decomposed aproximation coeficients
+#    cd (array-like): the decomposed detail coeficientes
+#    g (array-like): high-pass wavelets coeficients
+#    h (array-like): low-pass wavelets coeficients
+#    level(int) : level of decomposition of the signal
+# Returns:
+#    out (array-like)
+
     out = np.zeros(ca.size)
 
     for t in range(ca.size):
@@ -53,7 +75,8 @@ def imodwt(ca, cd, g, h, level):
 
 
 def w_coef(mother_wavelet):
-    
+#obtain the wavelet coefficients and modify them for MODWT
+ 
     with open('coef_db.json', 'r') as json_file:
         coeficientes_carregados = json.load(json_file)
         low_coef = coeficientes_carregados[mother_wavelet]
@@ -68,13 +91,15 @@ def w_coef(mother_wavelet):
     return g, h
 
 def threhsold(d_j, type_threshold, level):
-
+# aply the Universal Tresholding in the coeficients
     out = np.zeros(d_j.size)
+    tmp = np.zeros(d_j.size)
+    MAD= (math.sqrt(2) * np.median(np.abs(d_j - np.median(d_j))))/0.6745
+    #MAD = (math.sqrt(2) * np.median(np.abs(d_j)))/0.6745
+    lambda_j = MAD * math.sqrt(math.log(d_j.size)/(2**(level-1))) 
     
-    MAD= (math.sqrt(2) * np.median(abs(d_j - np.median(d_j))))
-
-    lambda_j = MAD * math.sqrt(math.log(d_j.size)/(2**(level-1))) # rq 12 of the article
-
+    #lambda_j = MAD * math.sqrt((2 * MAD**2)/((2**level)*math.log(d_j.size)))
+    #lambda_j = np.sqrt(2 * MAD**2 / 2**level * np.log(len(d_j)))
     match type_threshold:
         case 'hard':
             for i in range(d_j.size):
@@ -85,25 +110,24 @@ def threhsold(d_j, type_threshold, level):
                 
         case 'soft':
             for i in range(d_j.size):
+                tmp[i] = abs(d_j[i]) - lambda_j
+                tmp[i] = (tmp[i] + abs(tmp[i]))/2
+                out[i] = np.sign(d_j[i]) * tmp[i]
+            
+            #tmp = np.abs(d_j) - lambda_j
+            #tmp = (tmp + np.abs(tmp))/2
+            #tmp = np.sign(d_j) * tmp 
                 
-                if d_j[i] > lambda_j:
-                    out[i] = d_j[i] - lambda_j
-
-                elif d_j[i] < lambda_j:
-                    out[i] = d_j[i] + lambda_j
-
-                elif abs(d_j[i]) == lambda_j:
-                    out[i] = 0;
-
+                
         case default:
-            out = 0;
+            out = 0
             
     return out
 
 
     
 def w_denoising(input, mother_wavelet, levels, type_threshold):
-
+# Performs the modwt denoising in a 1 dimension signal
     ca = np.zeros((levels, input.size))
     cd = np.zeros((levels, input.size))
     inv = np.zeros((levels, input.size))
@@ -112,9 +136,11 @@ def w_denoising(input, mother_wavelet, levels, type_threshold):
     g, h = w_coef(mother_wavelet)
         
     ca[0, :],cd[0, :] = modwt(input, g, h, 1)
+    cd[0,:] = threhsold(cd[0,:], type_threshold,1)
     
     for i in range(1, levels):
-        ca[i, :], cd[i, :] = modwt(ca[i-1,:],g,h,i+1)    
+        ca[i, :], cd[i, :] = modwt(ca[i-1,:],g,h,i+1)
+        cd[i,:] = threhsold(cd[i,:], type_threshold, i+1)    
 
     inv[4, :] = imodwt(ca[levels-1,:],cd[levels-1,:], g, h, levels)
 
@@ -124,43 +150,3 @@ def w_denoising(input, mother_wavelet, levels, type_threshold):
     output = inv[0,:]
 
     return output,ca,cd
-"""
-sample_rate, data = wavfile.read('sweep_4k.wav')
-h, g = w_coef('db37')
-ca1, cd1 = modwt(data, g, h, 1)
-ca2, cd2 = modwt(ca1,g,h,2)
-out1 = imodwt(ca2,cd2,g,h,2)
-out2 = imodwt(out1,cd1,g,h,1)
-
-wavfile.write('ca1.wav', sample_rate, ca1.astype(np.int16))
-wavfile.write('cd1.wav', sample_rate, cd1.astype(np.int16))
-wavfile.write('ca2.wav', sample_rate, ca2.astype(np.int16))
-wavfile.write('cd2.wav', sample_rate, cd2.astype(np.int16))
-
-wavfile.write('out1.wav', sample_rate, out1.astype(np.int16))
-wavfile.write('out2.wav', sample_rate, out2.astype(np.int16))
-
-plt.plot(out1)
-plt.plot(data)
-plt.show()
-
-"""
-sample_rate, data = wavfile.read('sweep_4k.wav')
-
-levels= 5
-mother_wavelet = 'db5'
-type_threshold = 's'
-
-#out, ca, cd = w_denoising(data, mother_wavelet, levels, type_threshold)
-out = threhsold(data,'hardsd',1);
-
-plt.plot(out)
-plt.show()
-
-
-
-## TODO
-#implementar o threshold soft hard universal threhsold
-#implementar funcoes de plot de dados
-#checar o resultado do algoritmo com as funcoes em matlab e outras
-#bibliotecas prontas
