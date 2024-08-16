@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o -o /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den 

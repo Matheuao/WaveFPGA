@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "typedef.h": "c",
+        "basic_op.h": "c",
+        "stdio.h": "c"
+    }
+}

@@ -1,6 +1,6 @@
 import numpy as np
-import json
-import pywt # just to get the coeficients in a json file
+#import json
+#import pywt # just to get the coeficients in a json file
 
 
 def get_coef_json(wavelet_name,coef_json_path):
