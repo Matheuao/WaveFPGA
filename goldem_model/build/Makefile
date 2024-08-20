@@ -153,6 +153,30 @@ home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
 .PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
 
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o: home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o
+
+# target to build an object file
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o
+
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.i: home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.i
+
+# target to preprocess a source file
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.i
+
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.s: home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.s
+
+# target to generate assembly for a file
+home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s
+
 home/matheus/dev/modwt_denoising/goldem_model/src/main.o: home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o
 .PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/main.o
 
@@ -177,29 +201,29 @@ home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s
 .PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s
 
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.o: home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.o
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.o: home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.o
 
 # target to build an object file
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o
 
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.i: home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.i
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.i
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.i: home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.i
 
 # target to preprocess a source file
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.i
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.i
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.i
 
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.s: home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.s
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.s
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.s: home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.s
 
 # target to generate assembly for a file
-home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.s
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.s
+home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
 
 # Help Target
 help:
@@ -213,12 +237,15 @@ help:
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.o"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.i"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.s"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.i"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.s"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/main.o"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/main.i"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/main.s"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/utils.o"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/utils.i"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/utils.s"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.o"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.i"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.s"
 .PHONY : help
 
 

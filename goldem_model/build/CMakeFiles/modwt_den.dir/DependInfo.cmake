@@ -9,8 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o" "gcc" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o.d"
+  "/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o" "gcc" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o.d"
   "/home/matheus/dev/modwt_denoising/goldem_model/src/main.c" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o" "gcc" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o.d"
-  "/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o" "gcc" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/utils.c.o.d"
+  "/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o" "gcc" "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o.d"
   )
 
 # Targets to which this target links.

@@ -2,6 +2,12 @@
     "files.associations": {
         "typedef.h": "c",
         "basic_op.h": "c",
-        "stdio.h": "c"
-    }
+        "stdio.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "file_io.h": "c"
+    },
+    "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }

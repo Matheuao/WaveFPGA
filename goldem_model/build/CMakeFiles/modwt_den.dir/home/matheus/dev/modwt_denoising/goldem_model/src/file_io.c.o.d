@@ -1,5 +1,5 @@
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o: \
- /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c \
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o: \
+ /home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -48,5 +48,4 @@ CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_e
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/typedef.h \
- /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.h
+ /home/matheus/dev/modwt_denoising/goldem_model/src/../include/file_io.h

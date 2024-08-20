@@ -1,7 +1,9 @@
 #include <stdio.h>
-#include "../include/utils.h"
-#include "../lib/bit_exact/typedef.h"
-#include "../lib/bit_exact/basic_op.h"
+#include "../include/file_io.h"
+#include "../include/modwt_denoising.h"
+
+//#include "../lib/bit_exact/typedef.h"
+//#include "../lib/bit_exact/basic_op.h"
 
 //TODO:
 //creat a struct whith the modwt coeficients and parameters
@@ -10,7 +12,8 @@
 /* create a imodwt*/
 /* create a threhsold, sample by sample, exponential smothing*/
 /* create delay function*/
-typedef struct{
+
+/*typedef struct{
     Word16 *input;
     Word16 *Ca;
     Word16 *Cd;
@@ -19,34 +22,31 @@ typedef struct{
     long size;
     Word8 type_threshold;
 } modwt_data;
+*/
 
 int main(void){
-    const char *in_file_name = "..//..//clean_audio_files_pcm/sweep_4k.pcm";
-    const char *out_file_name ="out.pcm";
+    char *in_file_name = "..//..//input_output_data/clean_audio_files_pcm/sweep_4k.pcm";
+    char *out_file_name ="..//..//input_output_data/goldem_model_output/out.pcm";
+    int levels=5;
+    int i;
+    short *out;
+    pcm_file_obj in_out;
+    in_out = init_pcm_file_object(in_file_name);
 
-    FILE * ptrArqIn;
-    FILE * ptrArqOut;
+    modwt_obj *wt;
+    wt = init_modwt_obj(in_out.size, levels);
 
-    modwt_data wt;
-    wt.size = get_file_size(in_file_name, sizeof(Word16)*8);
- 
+    in_out = read_pcm(in_file_name, in_out);
 
-    /*
-    ptrArqIn = fopen(in_file_name,"rb");
-    if(ptrArqIn == NULL){
-        printf("error in open the input file");
+    for(i=0;i<in_out.size;i++){
+        wt[1].ca[i]=in_out.data[i]/2;
+        printf("wt[1].ca[%d]=%d\n",i,wt[1].ca[i]);
     }
-    fread(&amostra,sizeof(short),1,ptrArqIn);
-
-    ptrArqOut = fopen(out_file_name,"wb");
-    if(ptrArqOut == NULL){
-        printf("error in open the output file");
-    }
-    */
-    //wt.Ca = input;
     
+    whrite_pcm(out_file_name,wt[1].ca,in_out.size);
 
+    free_pcm_object(in_out);
+    free_modwt_obj(wt,levels);
     
-
     return 0;
 };
