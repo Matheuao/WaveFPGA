@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
   "/home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den"
   "/home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den.pdb"
-  "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o"
-  "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o.d"
   "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o"
   "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o.d"
   "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o"

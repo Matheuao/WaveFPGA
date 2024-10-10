@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/matheus/dev/modwt_denoising/goldem_model/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -129,29 +139,18 @@ modwt_den/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/build
 .PHONY : modwt_den/fast
 
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.o: home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.o
+#=============================================================================
+# Target rules for targets named tests
 
-# target to build an object file
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
 
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.i: home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.i
-
-# target to preprocess a source file
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i
-
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.s: home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.s
-
-# target to generate assembly for a file
-home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
-.PHONY : home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
+# fast build rule for target.
+tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+.PHONY : tests/fast
 
 home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o: home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o
 .PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o
@@ -225,6 +224,30 @@ home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/modwt_den.dir/build.make CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
 .PHONY : home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
 
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.o: home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.o
+
+# target to build an object file
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o
+
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.i: home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.i
+
+# target to preprocess a source file
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.i
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.i
+
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.s: home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.s
+
+# target to generate assembly for a file
+home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.s
+.PHONY : home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -233,10 +256,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... modwt_den"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.o"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.i"
-	@echo "... home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.s"
+	@echo "... tests"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.o"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.i"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/file_io.s"
@@ -246,6 +268,9 @@ help:
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.o"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.i"
 	@echo "... home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.s"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.o"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.i"
+	@echo "... home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.s"
 .PHONY : help
 
 

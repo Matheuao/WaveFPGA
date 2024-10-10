@@ -69,24 +69,10 @@ include CMakeFiles/modwt_den.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/modwt_den.dir/flags.make
 
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: CMakeFiles/modwt_den.dir/flags.make
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: /home/matheus/dev/modwt_denoising/goldem_model/src/main.c
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: CMakeFiles/modwt_den.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o -MF CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o.d -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o -c /home/matheus/dev/modwt_denoising/goldem_model/src/main.c
-
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matheus/dev/modwt_denoising/goldem_model/src/main.c > CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i
-
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matheus/dev/modwt_denoising/goldem_model/src/main.c -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s
-
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o: CMakeFiles/modwt_den.dir/flags.make
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o: /home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o: CMakeFiles/modwt_den.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o"
 	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o -MF CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o.d -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o -c /home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c
 
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.i: cmake_force
@@ -96,6 +82,20 @@ CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s"
 	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.s
+
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: CMakeFiles/modwt_den.dir/flags.make
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: /home/matheus/dev/modwt_denoising/goldem_model/src/main.c
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o: CMakeFiles/modwt_den.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o"
+	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o -MF CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o.d -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o -c /home/matheus/dev/modwt_denoising/goldem_model/src/main.c
+
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i"
+	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matheus/dev/modwt_denoising/goldem_model/src/main.c > CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.i
+
+CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s"
+	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matheus/dev/modwt_denoising/goldem_model/src/main.c -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.s
 
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o: CMakeFiles/modwt_den.dir/flags.make
 CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o: /home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c
@@ -111,37 +111,21 @@ CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s"
 	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.s
 
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o: CMakeFiles/modwt_den.dir/flags.make
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o: /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o: CMakeFiles/modwt_den.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o -MF CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o.d -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o -c /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c
-
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c > CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.i
-
-CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s"
-	/usr/bin/gcc-12 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c -o CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.s
-
 # Object files for target modwt_den
 modwt_den_OBJECTS = \
-"CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o" \
 "CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o" \
-"CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o" \
-"CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o"
+"CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o" \
+"CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o"
 
 # External object files for target modwt_den
 modwt_den_EXTERNAL_OBJECTS =
 
-/home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o
 /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/file_io.c.o
+/home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/main.c.o
 /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/src/modwt_denoising.c.o
-/home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/home/matheus/dev/modwt_denoising/goldem_model/lib/bit_exact/basic_op.c.o
 /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/build.make
 /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den: CMakeFiles/modwt_den.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/matheus/dev/modwt_denoising/goldem_model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable /home/matheus/dev/modwt_denoising/goldem_model/bin/modwt_den"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/modwt_den.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
