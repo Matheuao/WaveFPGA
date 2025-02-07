@@ -1,1 +1,1 @@
-/usr/bin/gcc-12 -g CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o -o test_bin/tests   -L/home/matheus/dev/modwt_denoising/goldem_model/build/../lib 
+/usr/bin/cc "CMakeFiles/tests.dir/home/matheus/work/Modwt-Denoising-aceleration-on-FPGA/goldem_model/test/test_modwt.c.o" -o test_bin/tests

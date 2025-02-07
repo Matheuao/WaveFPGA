@@ -1,5 +1,0 @@
-/home/matheus/dev/modwt_denoising/goldem_model/CMakeFiles/modwt_den.dir
-/home/matheus/dev/modwt_denoising/goldem_model/CMakeFiles/tests.dir
-/home/matheus/dev/modwt_denoising/goldem_model/CMakeFiles/test.dir
-/home/matheus/dev/modwt_denoising/goldem_model/CMakeFiles/edit_cache.dir
-/home/matheus/dev/modwt_denoising/goldem_model/CMakeFiles/rebuild_cache.dir

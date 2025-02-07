@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o"
-  "CMakeFiles/tests.dir/home/matheus/dev/modwt_denoising/goldem_model/test/test_modwt.c.o.d"
+  "CMakeFiles/tests.dir/home/matheus/work/Modwt-Denoising-aceleration-on-FPGA/goldem_model/test/test_modwt.c.o"
+  "CMakeFiles/tests.dir/home/matheus/work/Modwt-Denoising-aceleration-on-FPGA/goldem_model/test/test_modwt.c.o.d"
   "test_bin/tests"
   "test_bin/tests.pdb"
 )

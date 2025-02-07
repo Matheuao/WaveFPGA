@@ -7,7 +7,8 @@
         "string_view": "c",
         "initializer_list": "c",
         "utility": "c",
-        "file_io.h": "c"
+        "file_io.h": "c",
+        "string": "c"
     },
     "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }

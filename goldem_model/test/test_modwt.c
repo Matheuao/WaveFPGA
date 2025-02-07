@@ -1,42 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../lib/bit_exact/typedef.h"
 #include "../include/file_io.h"
-#include "../include/modwt_denoising.h"
+#include "../include/modwt_objects.h"
+#include "../include/modwt_transform_core.h"
+
 
 
 int main(void){
  
-    char *in_file_name = "..//..//input_output_data/clean_audio_files_pcm/sweep_4k.pcm";
-    char *ca_file_name ="ca.pcm";
-    char *cd_file_name ="cd.pcm";
-    //char *ca_file_name ="..//..//input_output_data/goldem_model_output/test_goldem_output/ca.pcm";
-    //char *cd_file_name ="..//..//input_output_data/goldem_model_output/test_goldem_output/cd.pcm";
-    Word16 g[10]; // get values
-    Word16 h[10]; // get values
+    char *in_file_name = "../../input_output_data/clean_audio_files_pcm/sweep_4k.pcm";
+
+    char *ca_file_name ="../../input_output_data/goldem_model_output/ca.pcm";
+    char *cd_file_name ="../../input_output_data/goldem_model_output/cd.pcm";
+    
+    Word16 g[10] = { //high-pass coefficients quantized in 16 bit
+        0x004D, 0x0123, 0xFF6F, 0xF8FB, 0xFD15,
+        0x15EE, 0x0C87, 0xBE72, 0x36A7, 0xF182
+    };
+    Word16 h[10]= { //low-pass coefficients quantized in 16 bit
+        0x0E7E, 0x36A7, 0x418E, 0x0C87, 0xEA12,
+        0xFD15, 0x0705, 0xFF6F, 0xFEDD, 0x004D
+    };
 
     //parameters:
-    int level=5;
-    //obj init:
-    pcm_file_obj in_out;
-    in_out = init_pcm_file_object(in_file_name);
+    int level=1;
 
-    modwt_obj wt;
-    wt = init_modwt_obj(in_out.size);
+    pcm_file_obj *in = read_pcm(in_file_name);
 
+    modwt_obj *wt = modwt(in->data,g,h,level,in->size,10);
+    free_pcm_file_object(in);
 
+    whrite_pcm(ca_file_name, wt->ca, wt->size);
+    whrite_pcm(cd_file_name, wt->cd, wt->size);
 
-    in_out = read_pcm(in_file_name, in_out);
-
-    modwt(in_out.data,wt,g,h,level,in_out.size,10);
-
-    free_pcm_object(in_out);
+    free_modwt_object(wt);
     
-    whrite_pcm(ca_file_name,wt.ca,in_out.size);
-    whrite_pcm(cd_file_name,wt.cd,in_out.size);
+    printf("Direct transform tested\n");
 
-    
-    free_modwt_obj(wt);
-    
     return 0;
 };

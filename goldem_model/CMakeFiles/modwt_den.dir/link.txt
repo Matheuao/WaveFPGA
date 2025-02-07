@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/modwt_den.dir/src/file_io.c.o CMakeFiles/modwt_den.dir/src/main.c.o CMakeFiles/modwt_den.dir/src/modwt_denoising.c.o -o /home/matheus/dev/modwt_denoising/bin/modwt_den   -L/home/matheus/dev/modwt_denoising/goldem_model/build/../lib 

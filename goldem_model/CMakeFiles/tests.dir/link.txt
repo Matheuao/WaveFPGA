@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/tests.dir/test/test_modwt.c.o -o test_bin/tests   -L/home/matheus/dev/modwt_denoising/goldem_model/build/../lib 

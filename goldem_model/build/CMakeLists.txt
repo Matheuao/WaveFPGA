@@ -7,13 +7,17 @@ project(modwt_den C)
 set(CMAKE_C_STANDARD 99)
 
 # Diretório de arquivos de cabeçalho
-include_directories(..\\include)
+include_directories(../include)
+include_directories(./lib/bit_exact/include)
+
 
 # Diretório de bibliotecas externas
-link_directories(..\\lib)
+#link_directories(..\\lib)
 
 # Encontre todos os arquivos .c em src e test
 file(GLOB_RECURSE SRC_FILES ../src/*.c)
+file(GLOB BIT_EXACT_SOURCES ../lib/bit_exact/src/*.c)
+
 file(GLOB_RECURSE TEST_FILES ../test/*.c)
 
 # Adicionar os arquivos de origem do projeto
