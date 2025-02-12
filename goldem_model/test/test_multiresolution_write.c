@@ -26,7 +26,7 @@ int main(void){
 
     free_pcm_file_object(in);
 
-    printf("MODWT multiresolution tested, aproximation and detail coefficients are written\n");
+    printf("MODWT multiresolution tested, write ca and cd coefficientes\n");
 
     return 0;
 };

@@ -16,12 +16,15 @@ typedef struct{
     Word16 levels;
 }modwt_mres_obj;
 
+
+
 modwt_mres_obj* modwt_multiresolution(Word16* in,
                                       Word16* g,
                                       Word16* h,
                                       Word16 levels,
                                       long input_size,
                                       Word16 coef_size,
+                                      char * root_path,
                                       char* component,
                                       char* config);
 
@@ -31,6 +34,7 @@ void multiresolution_write(Word16* in,
                            Word16 levels,
                            long input_size,
                            Word16 coef_size,
+                           char* root_path,
                            char* component);
 
 modwt_mres_obj* multiresolution_ret(Word16* in,
