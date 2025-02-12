@@ -1,4 +1,4 @@
-#include"../include/modwt_objects.h"
+#include"../include/objects.h"
 
 
 modwt_obj* init_modwt_object(long size){

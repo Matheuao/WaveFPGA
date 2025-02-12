@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/file_io.h"
-#include "../include/modwt_objects.h"
+#include "../include/objects.h"
 #include "../include/modwt_transform_core.h"
 
 
@@ -27,11 +27,14 @@ int main(void){
 
     pcm_file_obj *in = read_pcm(in_file_name);
 
-    modwt_obj *wt = modwt(in->data,g,h,level,in->size,10);
+    modwt_obj* wt = init_modwt_object(in->size);
+
+    modwt(in->data, wt, g, h, level,10);
+    
     free_pcm_file_object(in);
 
-    whrite_pcm(ca_file_name, wt->ca, wt->size);
-    whrite_pcm(cd_file_name, wt->cd, wt->size);
+    write_pcm(ca_file_name, wt->ca, wt->size);
+    write_pcm(cd_file_name, wt->cd, wt->size);
 
     free_modwt_object(wt);
     

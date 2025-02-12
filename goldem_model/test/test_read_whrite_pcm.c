@@ -10,7 +10,7 @@ int main(void){
    
     pcm_file_obj *in = read_pcm(in_file_name);
 
-    whrite_pcm(out_file_name ,in->data, in->size);
+    write_pcm(out_file_name ,in->data, in->size);
     
     free_pcm_file_object(in);
 

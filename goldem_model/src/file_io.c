@@ -70,23 +70,6 @@ void free_pcm_file_object(pcm_file_obj *p){
     }
 
 }
-pcm_file_obj init_pcm_object(long size){
-    pcm_file_obj p;
-    p.size = size;
-
-    p.data = (short*)malloc(size * sizeof(short));
-
-    if (p.data == NULL) {
-        printf("Error in alloc memory (init_pcm_object).\n");
-        exit(1);
-    }
-
-    return p;
-}
-
-void free_pcm_object(pcm_file_obj p){
-    free(p.data);
-}
 
 pcm_file_obj* read_pcm(char *path){
     /* 
@@ -116,7 +99,7 @@ pcm_file_obj* read_pcm(char *path){
 
     return file;
 }
-void whrite_pcm(char *path, short *w_data, long size){
+void write_pcm(char *path, short *w_data, long size){
     //TODO: multiples chanels, multiples data size
     FILE *ptrArq = fopen(path,"wb");
 

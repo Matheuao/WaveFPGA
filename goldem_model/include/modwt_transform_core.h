@@ -5,10 +5,21 @@
 #include <math.h>
 #include "../lib/bit_exact/include/typedef.h"
 #include "../lib/bit_exact/include/basic_op.h"
-#include "modwt_objects.h"
+#include "objects.h"
 
 
-modwt_obj* modwt(Word16 *input, Word16 *g,Word16 *h, Word16 level, long size, Word16 coef_size);
+void modwt( Word16* input,
+            modwt_obj* wt,
+            Word16* g,
+            Word16* h,
+            Word16 level,
+            Word16 coef_size);
 
-imodwt_obj* imodwt(Word16 *ca, Word16 *cd, Word16 *g, Word16 *h, Word16 level, long size, Word16 coef_size);
+void imodwt(Word16* ca,
+            Word16* cd,
+            imodwt_obj* wt,
+            Word16* g,
+            Word16 *h,
+            Word16 level,
+            Word16 coef_size);
 #endif

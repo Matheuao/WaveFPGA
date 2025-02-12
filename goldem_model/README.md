@@ -2,31 +2,19 @@ para compilar basta ir até o diretório src e digitar o seguinte comando
 
 gcc *.c ../lib/bit_exact/src/*.c -I ../include -I ../lib/bit_exact/include -o modwt -lm
 
+no diretório src rode o comando
+
+./modwt
+
 
 //TODO:
 //creat a struct whith the modwt coeficients and parameters
 //
-/* crate a modwt*/
-/* create a imodwt*/
+/* crate a modwt*/ ok
+/* create a imodwt*/ ok
+/* create e modwt multiresolution */
 /* create a threhsold, sample by sample, exponential smothing*/
 /* create delay function*/
-
-
----- fil_io ------
-
-get_file_size -ok
-read_pcm  - ok
-whrite_pcm -ok
-init_pcm_file_object -ok
-free_pcm_file_object -ok
-
-init_pcm_object
-free_pcm_object
-
------modwt_denoising----
-init_modwt_obj
-free_modwt_obj
-modwt
 
 
 tokei output 07/01/2025

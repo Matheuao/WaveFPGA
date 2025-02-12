@@ -8,7 +8,8 @@
         "initializer_list": "c",
         "utility": "c",
         "file_io.h": "c",
-        "string": "c"
+        "string": "c",
+        "modwt_multiresolution.h": "c"
     },
     "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }

@@ -14,10 +14,6 @@ pcm_file_obj* init_pcm_file_object(char *path);
 
 void free_pcm_file_object(pcm_file_obj *p);
 
-pcm_file_obj init_pcm_object(long size);
-
-void free_pcm_object(pcm_file_obj p);
-
-void whrite_pcm(char *path, short *w_data, long size);
+void write_pcm(char *path, short *w_data, long size);
 
 #endif
