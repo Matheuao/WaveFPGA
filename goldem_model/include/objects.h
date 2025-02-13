@@ -16,19 +16,22 @@ typedef struct{
     long size;
 }imodwt_obj;
 
-//maiby a change that when i made the multiresolution ret
+// (can, cd1, cd2, ...cdn)
 typedef struct{
     Word16* ca;
     Word16* cd;
     Word16* inv;
-    Word16* levels;
+    Word16 levels;
     long size;
-}m_level_modwt;
+}m_level_modwt_obj;
 
 modwt_obj* init_modwt_object(long size);
 void free_modwt_object(modwt_obj *wt);
 
 imodwt_obj* init_inverse_modwt_object(long size);
 void free_inverse_modwt_object(imodwt_obj *wt);
+
+m_level_modwt_obj* init_m_level_modwt_objet(long size, Word16 levels);
+void free_m_level_modwt(m_level_modwt_obj* wt);
 
 #endif

@@ -9,7 +9,8 @@
         "utility": "c",
         "file_io.h": "c",
         "string": "c",
-        "modwt_multiresolution.h": "c"
+        "modwt_multiresolution.h": "c",
+        "modwt_transform_core.h": "c"
     },
     "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }
