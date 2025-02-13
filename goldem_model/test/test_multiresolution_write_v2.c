@@ -22,7 +22,7 @@ int main(void){
 
     pcm_file_obj *in = read_pcm(in_file_name);
     
-    multiresolution_write(in->data, g, h, levels, in->size, coef_size, root_path, "inv");
+    multiresolution_component_write(in->data, g, h, levels, in->size, coef_size, root_path, "inv");
 
     free_pcm_file_object(in);
 
