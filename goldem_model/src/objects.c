@@ -81,7 +81,7 @@ void free_inverse_modwt_object(imodwt_obj *wt){
     }
 }
 
-m_level_modwt_obj* init_m_level_modwt_objet(long size, Word16 levels){
+m_level_modwt_obj* init_m_level_modwt_object(long size, Word16 levels){
 
     long i = 0;
 
@@ -134,10 +134,58 @@ m_level_modwt_obj* init_m_level_modwt_objet(long size, Word16 levels){
     return wt;
 }
 
-void free_m_level_modwt(m_level_modwt_obj* wt){
+void free_m_level_modwt_object(m_level_modwt_obj* wt){
     free(wt->ca);
     free(wt->cd);
     free(wt->inv);
+    free(wt);
+}
+
+modwt_dec_obj* init_modwt_dec_object(long size, Word16 levels){
+
+    long i = 0;
+
+    modwt_dec_obj* wt = (modwt_dec_obj*) malloc(sizeof(modwt_dec_obj));
+    if(wt == NULL){
+        printf("Error allocating memory for decomposition modwt object");
+        exit(EXIT_FAILURE);
+    }
+   
+    wt->ca = (Word16*) malloc(size * sizeof(Word16));
+    wt->cd = (Word16*) malloc(size * levels * sizeof(Word16));
+    
+    wt->size = size;
+    wt->levels =  levels;
+
+    if (wt->ca == NULL){
+        printf("error in allocating memory for Ca coefficients in the m_level");
+        free(wt->cd);
+        free(wt);
+        exit(EXIT_FAILURE);
+    }
+    if (wt->cd == NULL){
+        printf("error in allocating memory for Cd coefficients in the m_level");
+        free(wt->ca);
+        free(wt);
+        exit(EXIT_FAILURE);
+    }
+
+    // iinitialize the object data with zeros
+
+    for (i = 0; i < size; i++) {
+        wt->ca[i] = 0; 
+    }
+    
+    for(i = 0; i < (size * levels); i++){
+        wt->cd[i] = 0;
+    }
+
+    return wt;
+}
+
+void free_modwt_dec_object(modwt_dec_obj* wt){
+    free(wt->ca);
+    free(wt->cd);
     free(wt);
 }
 

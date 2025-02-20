@@ -8,17 +8,6 @@
 #include "modwt_transform_core.h"
 #include "objects.h"
 
-typedef struct{
-    Word16* ca_data;
-    Word16* cd_data;
-    Word16* inv_data;
-    long size;
-    Word16 levels;
-}modwt_mres_obj;
-
-
-
-
 void multiresolution_component_write(Word16* in,
                            Word16* g,
                            Word16* h,
@@ -27,6 +16,23 @@ void multiresolution_component_write(Word16* in,
                            Word16 coef_size,
                            char* root_path,
                            char* component);
+
+void modwt_dec( Word16* in, 
+                modwt_dec_obj* wt_m,
+                Word16* g,
+                Word16* h,
+                Word16 levels,
+                long input_size,
+                Word16 coef_size);
+
+void modwt_reconstruction(Word16* in, 
+                          imodwt_obj* out,
+                          Word16* g,
+                          Word16* h,
+                          Word16 levels,
+                          long input_size,
+                          Word16 coef_size);
+
 
 //modwt_decomposition
 //modwt_reconstruction

@@ -20,10 +20,6 @@ void multiresolution_component_write(Word16* in,
     char str_buffer[10];
     
     strcpy(root,root_path);
-    
-    //char* ca_path = strcat(root,"/ca");
-    //char* cd_path = strcat(root,"/cd");
-    //char* inv_path = strcat(root,"/inv");
 
     if (strcmp(component, "ca_cd") == 0){
         Word8 aux = 0;
@@ -77,7 +73,7 @@ void multiresolution_component_write(Word16* in,
         Word8 aux = 0;
         Word16 buffer[input_size];
 
-        m_level_modwt_obj* wt_m = init_m_level_modwt_objet(input_size, levels);
+        m_level_modwt_obj* wt_m = init_m_level_modwt_object(input_size, levels);
         modwt_obj* wt = init_modwt_object(input_size);
 
         // perform the direct tranform 
@@ -142,7 +138,7 @@ void multiresolution_component_write(Word16* in,
 
             write_pcm(inv_path, iwt->inv, iwt->size);
         }
-        free_m_level_modwt(wt_m);
+        free_m_level_modwt_object(wt_m);
         free_inverse_modwt_object(iwt);
     }
     else if(strcmp(component, "all") == 0){
@@ -150,7 +146,7 @@ void multiresolution_component_write(Word16* in,
         Word8 aux = 0;
         Word16 buffer[input_size];
 
-        m_level_modwt_obj* wt_m = init_m_level_modwt_objet(input_size, levels);
+        m_level_modwt_obj* wt_m = init_m_level_modwt_object(input_size, levels);
         modwt_obj* wt = init_modwt_object(input_size);
 
         // perform the direct tranform 
@@ -234,12 +230,64 @@ void multiresolution_component_write(Word16* in,
 
             write_pcm(inv_path, iwt->inv, iwt->size);
         }
-        free_m_level_modwt(wt_m);
+        free_m_level_modwt_object(wt_m);
         free_inverse_modwt_object(iwt);
 
     }
     else{
         printf("component does not correspond whith the possibles match's");
     }
+
+}
+
+void modwt_dec( Word16* in, 
+                modwt_dec_obj* wt_dec,
+                Word16* g,
+                Word16* h,
+                Word16 levels,
+                long input_size,
+                Word16 coef_size){
+
+    Word8 aux = 0;
+    Word16 buffer[input_size];
+    Word16 level;
+    long i;
+    
+    modwt_obj* wt = init_modwt_object(input_size);
+
+    for(level = 1; level<= levels; level ++){
+            
+        if(aux == 0){ // in is used only in the first decomposition level
+            modwt(in, wt, g, h, level, coef_size);
+            aux = 1;
+        }
+        else{
+            
+            for(i = 0; i < input_size; i++){
+                buffer[i] = wt->ca[i];
+            }
+        
+            modwt(buffer, wt, g, h, level, coef_size);
+        }
+
+        for(i = 0; i < input_size; i++){
+            wt_dec->cd[i+ ((level-1) * input_size)] = wt->cd[i];
+        }
+        if(level == levels){
+            for(i = 0; i < input_size; i++){
+                wt_dec->ca[i] = wt->ca[i];
+            }
+        }        
+    }
+    free_modwt_object(wt);
+}
+
+void modwt_reconstruction(Word16* in, 
+                          imodwt_obj* out,
+                          Word16* g,
+                          Word16* h,
+                          Word16 levels,
+                          long input_size,
+                          Word16 coef_size){
 
 }
