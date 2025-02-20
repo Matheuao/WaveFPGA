@@ -18,23 +18,19 @@ void multiresolution_component_write(Word16* in,
                            char* component);
 
 void modwt_dec( Word16* in, 
-                modwt_dec_obj* wt_m,
+                modwt_dec_obj* wt_dec,
                 Word16* g,
                 Word16* h,
                 Word16 levels,
                 long input_size,
                 Word16 coef_size);
 
-void modwt_reconstruction(Word16* in, 
-                          imodwt_obj* out,
-                          Word16* g,
-                          Word16* h,
-                          Word16 levels,
-                          long input_size,
-                          Word16 coef_size);
-
-
-//modwt_decomposition
-//modwt_reconstruction
+void modwt_rec( modwt_dec_obj* wt_dec, 
+                imodwt_obj* out,
+                Word16* g,
+                Word16* h,
+                Word16 levels,
+                long input_size,
+                Word16 coef_size);
 
 #endif

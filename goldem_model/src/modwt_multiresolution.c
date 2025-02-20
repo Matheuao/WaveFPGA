@@ -282,12 +282,32 @@ void modwt_dec( Word16* in,
     free_modwt_object(wt);
 }
 
-void modwt_reconstruction(Word16* in, 
-                          imodwt_obj* out,
-                          Word16* g,
-                          Word16* h,
-                          Word16 levels,
-                          long input_size,
-                          Word16 coef_size){
-
+void modwt_rec( modwt_dec_obj* wt_dec, 
+                imodwt_obj* out,
+                Word16* g,
+                Word16* h,
+                Word16 levels,
+                long input_size,
+                Word16 coef_size){
+    int aux = 0;
+    int level = 0;
+    long i = 0;
+    Word16 buffer[input_size];
+                            
+    for(level = levels; level >= 1; level--){
+            
+        for(i = 0; i < input_size; i++){
+            buffer[i] = wt_dec->cd[i + ((level-1) * input_size)];
+        }
+                        
+        if(aux == 0){// only the first reconstruction level
+            imodwt(wt_dec->ca,buffer, out, g, h, level, coef_size);
+            aux = 1;
+        }
+        else{
+            imodwt(out->inv, buffer, out, g, h, level, coef_size);
+        }
+    }
+                        
 }
+    
