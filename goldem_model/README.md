@@ -1,74 +1,16 @@
-para compilar basta ir até o diretório src e digitar o seguinte comando
+## para compilar basta ir até o diretório src e digitar o seguinte comando
 
 bash build.sh
 
-para rodar o executavel
+## para rodar o executavel
 
 bin/modwt
-
 
 //TODO:
 //creat a struct whith the modwt coeficients and parameters
 //
-/* crate a modwt*/ ok
-/* create a imodwt*/ ok
-/* create e modwt multiresolution */ ok
+/*crate a modwt*/ ok
+/*create a imodwt*/ ok
+/*create e modwt multiresolution */ ok
 /* create a threhsold, sample by sample, exponential smothing*/
-/* create delay function*/
-
-
-tokei output 07/01/2025
-===============================================================================
- Language            Files        Lines         Code     Comments       Blanks
-===============================================================================
- C                      11         3718         1824         1472          422
- C Header                7          177          109           29           39
- CMake                  11          356          235           54           67
- D                       3          174          174            0            0
- JSON                    1         1482         1482            0            0
- Makefile                1          287          155           63           69
- Markdown                2           42            0           29           13
- Python                  3          242          120           56           66
- Plain Text              6          350            0          291           59
- TypeScript              2            4            4            0            0
- VHDL                   16         1510          860           69          581
- XML                     4          136          136            0            0
- YAML                    1          289          275            2           12
-===============================================================================
- Total                  68         8767         5374         2065         1328                                                                     ===============================================================================
-
-tokei output 14/01/2025
- ===============================================================================
- Language            Files        Lines         Code     Comments       Blanks
-===============================================================================
- C                      18         4344         2260         1513          571
- C Header               11          237          160           32           45
- CMake                  11          356          235           54           67
- D                       3          174          174            0            0
- JSON                    1         1482         1482            0            0
- Makefile                1          287          155           63           69
- Markdown                2           46            0           39            7
- Python                  3          242          120           56           66
- Plain Text              6          350            0          291           59
- TypeScript              2            4            4            0            0
- VHDL                   16         1510          860           69          581
- XML                     4          136          136            0            0
- YAML                    1          289          275            2           12
-===============================================================================
- Total                  79         9457         5861         2119         1477
-===============================================================================
-
-tokei output 25/02/2025
-===============================================================================
- Language            Files        Lines         Code     Comments       Blanks
-===============================================================================
- C                      20         3542         1650         1451          441
- C Header               12          233          160           30           43
- JSON                    1         1482         1482            0            0
- Markdown                2           67            0           59            8
- Python                  3          242          120           56           66
- Shell                   1           16            9            4            3
- VHDL                   16         1510          860           69          581
-===============================================================================
- Total                  55         7092         4281         1669         1142
-===============================================================================
+/*create delay function*/
