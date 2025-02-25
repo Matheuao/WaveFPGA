@@ -1,1 +1,0 @@
-/usr/bin/cc "CMakeFiles/tests.dir/home/matheus/work/Modwt-Denoising-aceleration-on-FPGA/goldem_model/test/test_modwt.c.o" -o test_bin/tests

@@ -1,10 +1,10 @@
 para compilar basta ir até o diretório src e digitar o seguinte comando
 
-gcc *.c ../lib/bit_exact/src/*.c -I ../include -I ../lib/bit_exact/include -o modwt -lm
+bash build.sh
 
-no diretório src rode o comando
+para rodar o executavel
 
-./modwt
+bin/modwt
 
 
 //TODO:
@@ -12,7 +12,7 @@ no diretório src rode o comando
 //
 /* crate a modwt*/ ok
 /* create a imodwt*/ ok
-/* create e modwt multiresolution */
+/* create e modwt multiresolution */ ok
 /* create a threhsold, sample by sample, exponential smothing*/
 /* create delay function*/
 
@@ -56,4 +56,19 @@ tokei output 14/01/2025
  YAML                    1          289          275            2           12
 ===============================================================================
  Total                  79         9457         5861         2119         1477
+===============================================================================
+
+tokei output 25/02/2025
+===============================================================================
+ Language            Files        Lines         Code     Comments       Blanks
+===============================================================================
+ C                      20         3542         1650         1451          441
+ C Header               12          233          160           30           43
+ JSON                    1         1482         1482            0            0
+ Markdown                2           67            0           59            8
+ Python                  3          242          120           56           66
+ Shell                   1           16            9            4            3
+ VHDL                   16         1510          860           69          581
+===============================================================================
+ Total                  55         7092         4281         1669         1142
 ===============================================================================
