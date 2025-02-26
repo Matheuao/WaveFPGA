@@ -11,7 +11,9 @@
         "string": "c",
         "modwt_multiresolution.h": "c",
         "modwt_transform_core.h": "c",
-        "objects.h": "c"
+        "objects.h": "c",
+        "stdlib.h": "c",
+        "random": "c"
     },
     "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }

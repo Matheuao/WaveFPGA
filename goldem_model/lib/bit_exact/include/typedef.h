@@ -15,6 +15,7 @@
 typedef signed char Word8;
 typedef short Word16;
 typedef long Word32;
+typedef long long int Word64;
 typedef int Flag;
 
 
