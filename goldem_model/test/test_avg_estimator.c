@@ -9,10 +9,12 @@ int main(void){
     char* out_file_name = "../../input_output_data/test_files/media.pcm";
 
     pcm_file_obj* in = read_pcm(in_file_name);
+
+    Word16 out[in->size];
    
-    avg_estimator(in->data, in->size, 10);
+    avg_estimator(in->data,out, in->size, 10);
     
-    write_pcm(out_file_name, in->data, in->size);
+    write_pcm(out_file_name, out, in->size);
     free_pcm_file_object(in);
 
     printf("Exponential Smoothing avarage tested\n");
