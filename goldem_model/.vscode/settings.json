@@ -13,7 +13,8 @@
         "modwt_transform_core.h": "c",
         "objects.h": "c",
         "stdlib.h": "c",
-        "random": "c"
+        "random": "c",
+        "threshold.h": "c"
     },
     "cmake.sourceDirectory": "/home/matheus/dev/modwt_denoising/goldem_model/build"
 }
