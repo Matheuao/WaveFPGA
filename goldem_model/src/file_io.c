@@ -123,5 +123,5 @@ void write_pcm(char *path, short *w_data, long size){
     fclose(ptrArq);
 }
 //TODO:
-//short read_wav()
-//short whrite_wav()
+//short read_pcm_chunk()
+//short write_pcm_chunk()

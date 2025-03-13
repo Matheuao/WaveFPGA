@@ -1,23 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/file_io.h"
-#include "../include/threshold.h"
+#include "../include/denoising.h"
 
 int main(void){
- 
-    char* in_file_name = "../../input_output_data/test_files/ruido_gausiano.pcm";
-    char* out_file_name = "../../input_output_data/test_files/media.pcm";
+    char* in_path= "../../input_output_data/test_files/guitar4_snr10.pcm";
+    char* out_path = "../../input_output_data/goldem_model_output/out.pcm";
+    parameters p;
 
-    pcm_file_obj* in = read_pcm(in_file_name);
+    init_default_parameters(&p);
 
-    Word16 out[in->size];
-   
-    avg_estimator(in->data,out, in->size, 10);
-    
-    write_pcm(out_file_name, out, in->size);
-    free_pcm_file_object(in);
+    denoising(in_path, out_path, &p);
 
-    printf("Exponential Smoothing avarage tested\n");
+    printf("Denoising tested!");
 
     return 0;
 };

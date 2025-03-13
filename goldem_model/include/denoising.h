@@ -4,19 +4,15 @@
 #include "modwt_multiresolution.h"
 #include "threshold.h"
 
-Word16 buffer_g[10] = { //high-pass coefficients quantized in 16 bit
-    0x004D, 0x0123, 0xFF6F, 0xF8FB, 0xFD15,
-    0x15EE, 0x0C87, 0xBE72, 0x36A7, 0xF182
-};
+#define WINDOW 80000
 
-Word16 buffer_h[10]= { //low-pass coefficients quantized in 16 bit
-    0x0E7E, 0x36A7, 0x418E, 0x0C87, 0xEA12,
-    0xFD15, 0x0705, 0xFF6F, 0xFEDD, 0x004D
-};
 
-Word16 buffer_c[5] ={
-    0x0007, 0x0004, 0x0003, 0x0002, 0x0001
-};
+extern Word16 buffer_g[10];
+
+extern Word16 buffer_h[10];
+
+extern Word16 buffer_c[5];
+
 typedef struct{
     Word16* g;
     Word16* h;
@@ -28,8 +24,8 @@ typedef struct{
     Word16* cj; 
 } parameters;
 
-void init_parameters(parameters* p);
+void init_default_parameters(parameters* p);
 
-void denoising(Word16* in, Word16* out, parameters* p);
+void denoising(char* in_path, char* out_path, parameters* p);
 
 #endif
