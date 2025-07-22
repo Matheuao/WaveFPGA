@@ -203,62 +203,60 @@ signal out_s:vector_2:= (others=>X"0000");
 			
 			end generate;
 			
---			comp_nivel_5:
---			
---			if level = 5 generate
---			
---			
---			
---				descontruction_0: desconstruction generic map(16,16,10,1) port map(x_in=>in_x,clk=>clock ,reset=>reset_m,output_low_des=>low_des(0),output_high_des=>high_des(0));
---				descontruction_1: desconstruction generic map(16,16,10,2) port map(x_in=>low_des(0),clk=>clock ,reset=>reset_m,output_low_des=>low_des(1),output_high_des=>high_des(1));
---				descontruction_2: desconstruction generic map(16,16,10,4) port map(x_in=>low_des(1),clk=>clock ,reset=>reset_m,output_low_des=>low_des(2),output_high_des=>high_des(2));
---				descontruction_3: desconstruction generic map(16,16,10,8) port map(x_in=>low_des(2),clk=>clock ,reset=>reset_m,output_low_des=>low_des(3),output_high_des=>high_des(3));
---				descontruction_4: desconstruction generic map(16,16,10,16) port map(x_in=>low_des(3),clk=>clock ,reset=>reset_m,output_low_des=>low_des(4),output_high_des=>high_des(4));
---				--147,223,263,285
---				shift_reg1: shift_register generic map(16,286) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
---				shift_reg2: shift_register generic map(16,264) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
---				shift_reg3: shift_register generic map(16,224) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
---				shift_reg4: shift_register generic map(16,148) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
---				
---				reconstruction_0: reconstruction generic map (16,16,10,16)  port map(rec_low_in=>low_des(4),rec_high_in=>high_des(4),reset=>reset_m,clk=>clock,y_out=>out_s(0));
---				reconstruction_1: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(3),reset=>reset_m,clk=>clock,y_out=>out_s(1));
---				reconstruction_2: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>out_s(1),rec_high_in=>out_delay(2),reset=>reset_m,clk=>clock,y_out=>out_s(2));
---				reconstruction_3: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>out_s(2),rec_high_in=>out_delay(1),reset=>reset_m,clk=>clock,y_out=>out_s(3));
---				reconstruction_4: reconstruction generic map (16,16,10,1)  port map(rec_low_in=>out_s(3),rec_high_in=>out_delay(0),reset=>reset_m,clk=>clock,y_out=>out_s(4));
---				
---			
---			end generate;
-			
-			
 			comp_nivel_5:
 			
 			if level = 5 generate
-			
-				threshold_1: threshold generic map(W1,5,K,s_h) port map(cd_ent=>high_des(4), clk=>clock, rst=>reset_m, cd_out=>out_threshold(0));
-				threshold_2: threshold generic map(W1,4,K,s_h) port map(cd_ent=>out_delay(3), clk=>clock, rst=>reset_m, cd_out=>out_threshold(1));
-				threshold_3: threshold generic map(W1,3,K,s_h) port map(cd_ent=>out_delay(2), clk=>clock, rst=>reset_m, cd_out=>out_threshold(2));
-				threshold_4: threshold generic map(W1,2,K,s_h) port map(cd_ent=>out_delay(1), clk=>clock, rst=>reset_m, cd_out=>out_threshold(3));
-				threshold_5: threshold generic map(W1,1,K,s_h) port map(cd_ent=>out_delay(0), clk=>clock, rst=>reset_m, cd_out=>out_threshold(4));
 			
 				descontruction_0: desconstruction generic map(16,16,10,1) port map(x_in=>in_x,clk=>clock ,reset=>reset_m,output_low_des=>low_des(0),output_high_des=>high_des(0));
 				descontruction_1: desconstruction generic map(16,16,10,2) port map(x_in=>low_des(0),clk=>clock ,reset=>reset_m,output_low_des=>low_des(1),output_high_des=>high_des(1));
 				descontruction_2: desconstruction generic map(16,16,10,4) port map(x_in=>low_des(1),clk=>clock ,reset=>reset_m,output_low_des=>low_des(2),output_high_des=>high_des(2));
 				descontruction_3: desconstruction generic map(16,16,10,8) port map(x_in=>low_des(2),clk=>clock ,reset=>reset_m,output_low_des=>low_des(3),output_high_des=>high_des(3));
 				descontruction_4: desconstruction generic map(16,16,10,16) port map(x_in=>low_des(3),clk=>clock ,reset=>reset_m,output_low_des=>low_des(4),output_high_des=>high_des(4));
+--				--147,223,263,285
+				shift_reg1: shift_register generic map(16,286) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+				shift_reg2: shift_register generic map(16,264) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
+				shift_reg3: shift_register generic map(16,224) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
+				shift_reg4: shift_register generic map(16,148) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
 				
-				shift_reg1: shift_register generic map(16,282) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
-				shift_reg2: shift_register generic map(16,260) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
-				shift_reg3: shift_register generic map(16,220) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
-				shift_reg4: shift_register generic map(16,144) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
+				reconstruction_0: reconstruction generic map (16,16,10,16)  port map(rec_low_in=>low_des(4),rec_high_in=>high_des(4),reset=>reset_m,clk=>clock,y_out=>out_s(0));
+				reconstruction_1: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(3),reset=>reset_m,clk=>clock,y_out=>out_s(1));
+				reconstruction_2: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>out_s(1),rec_high_in=>out_delay(2),reset=>reset_m,clk=>clock,y_out=>out_s(2));
+				reconstruction_3: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>out_s(2),rec_high_in=>out_delay(1),reset=>reset_m,clk=>clock,y_out=>out_s(3));
+				reconstruction_4: reconstruction generic map (16,16,10,1)  port map(rec_low_in=>out_s(3),rec_high_in=>out_delay(0),reset=>reset_m,clk=>clock,y_out=>out_s(4));
 				
-				reconstruction_0: reconstruction generic map (16,16,10,16)  port map(rec_low_in=>low_des(4),rec_high_in=>out_threshold(0),reset=>reset_m,clk=>clock,y_out=>out_s(0));
-				reconstruction_1: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>out_s(0),rec_high_in=>out_threshold(1),reset=>reset_m,clk=>clock,y_out=>out_s(1));
-				reconstruction_2: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>out_s(1),rec_high_in=>out_threshold(2),reset=>reset_m,clk=>clock,y_out=>out_s(2));
-				reconstruction_3: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>out_s(2),rec_high_in=>out_threshold(3),reset=>reset_m,clk=>clock,y_out=>out_s(3));
-				reconstruction_4: reconstruction generic map (16,16,10,1)  port map(rec_low_in=>out_s(3),rec_high_in=>out_threshold(4),reset=>reset_m,clk=>clock,y_out=>out_s(4));
-				
-				
+			
 			end generate;
+			
+			
+--			comp_nivel_5:
+			
+--			if level = 5 generate
+			
+--				threshold_1: threshold generic map(W1,5,K,s_h) port map(cd_ent=>high_des(4), clk=>clock, rst=>reset_m, cd_out=>out_threshold(0));
+--				threshold_2: threshold generic map(W1,4,K,s_h) port map(cd_ent=>out_delay(3), clk=>clock, rst=>reset_m, cd_out=>out_threshold(1));
+--				threshold_3: threshold generic map(W1,3,K,s_h) port map(cd_ent=>out_delay(2), clk=>clock, rst=>reset_m, cd_out=>out_threshold(2));
+--				threshold_4: threshold generic map(W1,2,K,s_h) port map(cd_ent=>out_delay(1), clk=>clock, rst=>reset_m, cd_out=>out_threshold(3));
+--				threshold_5: threshold generic map(W1,1,K,s_h) port map(cd_ent=>out_delay(0), clk=>clock, rst=>reset_m, cd_out=>out_threshold(4));
+			
+--				descontruction_0: desconstruction generic map(16,16,10,1) port map(x_in=>in_x,clk=>clock ,reset=>reset_m,output_low_des=>low_des(0),output_high_des=>high_des(0));
+--				descontruction_1: desconstruction generic map(16,16,10,2) port map(x_in=>low_des(0),clk=>clock ,reset=>reset_m,output_low_des=>low_des(1),output_high_des=>high_des(1));
+--				descontruction_2: desconstruction generic map(16,16,10,4) port map(x_in=>low_des(1),clk=>clock ,reset=>reset_m,output_low_des=>low_des(2),output_high_des=>high_des(2));
+--				descontruction_3: desconstruction generic map(16,16,10,8) port map(x_in=>low_des(2),clk=>clock ,reset=>reset_m,output_low_des=>low_des(3),output_high_des=>high_des(3));
+--				descontruction_4: desconstruction generic map(16,16,10,16) port map(x_in=>low_des(3),clk=>clock ,reset=>reset_m,output_low_des=>low_des(4),output_high_des=>high_des(4));
+				
+--				shift_reg1: shift_register generic map(16,282) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+--				shift_reg2: shift_register generic map(16,260) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
+--				shift_reg3: shift_register generic map(16,220) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
+--				shift_reg4: shift_register generic map(16,144) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
+				
+--				reconstruction_0: reconstruction generic map (16,16,10,16)  port map(rec_low_in=>low_des(4),rec_high_in=>out_threshold(0),reset=>reset_m,clk=>clock,y_out=>out_s(0));
+--				reconstruction_1: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>out_s(0),rec_high_in=>out_threshold(1),reset=>reset_m,clk=>clock,y_out=>out_s(1));
+--				reconstruction_2: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>out_s(1),rec_high_in=>out_threshold(2),reset=>reset_m,clk=>clock,y_out=>out_s(2));
+--				reconstruction_3: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>out_s(2),rec_high_in=>out_threshold(3),reset=>reset_m,clk=>clock,y_out=>out_s(3));
+--				reconstruction_4: reconstruction generic map (16,16,10,1)  port map(rec_low_in=>out_s(3),rec_high_in=>out_threshold(4),reset=>reset_m,clk=>clock,y_out=>out_s(4));
+				
+				
+--			end generate;
 			
 	
 

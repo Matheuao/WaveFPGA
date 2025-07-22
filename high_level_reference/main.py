@@ -4,7 +4,7 @@ import numpy as np
 import modwt_denoising as md
 import utils
 
-sample_rate, data = wavfile.read('../clean_audio_files/voice1.wav')
+sample_rate, data = wavfile.read('../input_output_data/clean_audio_files/guitar1.wav')
 #sample_rate, data = wavfile.read('sweep_4k.wav')
 noisy_input,noise = utils.noisy_data(data,5)
 
