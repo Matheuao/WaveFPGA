@@ -1,8 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-
-
+USE ieee.math_real.all;
 
 entity wavelet_main is 
 	GENERIC (
@@ -27,6 +26,17 @@ end wavelet_main;
 
 architecture main of wavelet_main is
 
+function delay(level : integer := 0; stage : integer :=1) return integer is variable d_count : integer;
+	variable d_previous : integer := 0;
+	begin 
+		
+	for i in level downto level - (stage - 1) loop
+		d_count := 2 * (2 + ((2 **(i - 2)) * 9)) + d_previous;
+		d_previous := d_count;
+	end loop;
+
+	return d_count;
+end function;
 
 component desconstruction
 
@@ -119,11 +129,6 @@ component threshold
 
 end component;
 
-
-
-
-
-
 type vector_2 is array(level-1 downto 0) of signed(W1-1 downto 0);
 signal low_des,high_des,out_delay,out_threshold:vector_2:= (others=>X"0000"); 
 signal out_t1,out_t2,out_t3,out_t4,out_delay1,out_delay2,out_delay3:signed(W1-1 downto 0):=(others=>'0');
@@ -132,14 +137,7 @@ signal clk_div_2,clk_div_4,clk_div_8,clk_div_16,e_shift: std_logic:='0';
 signal out_s:vector_2:= (others=>X"0000"); 
 
 
-
-
-
 	begin
-	
-	
-
-
 		comp_nivel_1:
 		
 			if level = 1 generate
@@ -157,7 +155,7 @@ signal out_s:vector_2:= (others=>X"0000");
 				descontruction_0: desconstruction generic map(16,16,10,1) port map(x_in=>in_x,clk=>clock ,reset=>reset_m,output_low_des=>low_des(0),output_high_des=>high_des(0));
 				descontruction_1: desconstruction generic map(16,16,10,2) port map(x_in=>low_des(0),clk=>clock ,reset=>reset_m,output_low_des=>low_des(1),output_high_des=>high_des(1));
 				
-				shift_reg1: shift_register generic map(16,22) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+				shift_reg1: shift_register generic map(16, delay(level =>2, stage => 1)) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
 				
 				reconstruction_0: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>low_des(1),rec_high_in=>high_des(1),reset=>reset_m,clk=>clock,y_out=>out_s(0));
 				reconstruction_1: reconstruction generic map (16,16,10,1)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(0),reset=>reset_m,clk=>clock,y_out=>out_s(1));
@@ -173,8 +171,8 @@ signal out_s:vector_2:= (others=>X"0000");
 				descontruction_1: desconstruction generic map(16,16,10,2) port map(x_in=>low_des(0),clk=>clock ,reset=>reset_m,output_low_des=>low_des(1),output_high_des=>high_des(1));
 				descontruction_2: desconstruction generic map(16,16,10,4) port map(x_in=>low_des(1),clk=>clock ,reset=>reset_m,output_low_des=>low_des(2),output_high_des=>high_des(2));
 				--38,58
-				shift_reg1: shift_register generic map(16,62) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
-				shift_reg2: shift_register generic map(16,40) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
+				shift_reg1: shift_register generic map(16,delay(level =>3, stage => 2)) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+				shift_reg2: shift_register generic map(16,delay(level =>3, stage => 1)) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
 				
 				reconstruction_0: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>low_des(2),rec_high_in=>high_des(2),reset=>reset_m,clk=>clock,y_out=>out_s(0));
 				reconstruction_1: reconstruction generic map (16,16,10,2)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(1),reset=>reset_m,clk=>clock,y_out=>out_s(1));
@@ -192,9 +190,9 @@ signal out_s:vector_2:= (others=>X"0000");
 				descontruction_2: desconstruction generic map(16,16,10,4) port map(x_in=>low_des(1),clk=>clock ,reset=>reset_m,output_low_des=>low_des(2),output_high_des=>high_des(2));
 				descontruction_3: desconstruction generic map(16,16,10,8) port map(x_in=>low_des(2),clk=>clock ,reset=>reset_m,output_low_des=>low_des(3),output_high_des=>high_des(3));
 				--132,112,74
-				shift_reg1: shift_register generic map(16,138) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
-				shift_reg2: shift_register generic map(16,116) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
-				shift_reg3: shift_register generic map(16,76) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
+				shift_reg1: shift_register generic map(16,delay(level =>4, stage => 3)) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+				shift_reg2: shift_register generic map(16,delay(level =>4, stage => 2)) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
+				shift_reg3: shift_register generic map(16,delay(level =>4, stage => 1)) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
 				
 				reconstruction_0: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>low_des(3),rec_high_in=>high_des(3),reset=>reset_m,clk=>clock,y_out=>out_s(0));
 				reconstruction_1: reconstruction generic map (16,16,10,4)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(2),reset=>reset_m,clk=>clock,y_out=>out_s(1));
@@ -213,10 +211,10 @@ signal out_s:vector_2:= (others=>X"0000");
 				descontruction_3: desconstruction generic map(16,16,10,8) port map(x_in=>low_des(2),clk=>clock ,reset=>reset_m,output_low_des=>low_des(3),output_high_des=>high_des(3));
 				descontruction_4: desconstruction generic map(16,16,10,16) port map(x_in=>low_des(3),clk=>clock ,reset=>reset_m,output_low_des=>low_des(4),output_high_des=>high_des(4));
 --				--147,223,263,285
-				shift_reg1: shift_register generic map(16,286) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
-				shift_reg2: shift_register generic map(16,264) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
-				shift_reg3: shift_register generic map(16,224) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
-				shift_reg4: shift_register generic map(16,148) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
+				shift_reg1: shift_register generic map(16,delay(level =>5, stage => 4)) port map(x_in=>high_des(0),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(0));
+				shift_reg2: shift_register generic map(16,delay(level =>5, stage => 3)) port map(x_in=>high_des(1),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(1));
+				shift_reg3: shift_register generic map(16,delay(level =>5, stage => 2)) port map(x_in=>high_des(2),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(2));
+				shift_reg4: shift_register generic map(16,delay(level =>5, stage => 1)) port map(x_in=>high_des(3),clock=>clock,reset=>reset_m,enable=>'1',x_out=>out_delay(3));
 				
 				reconstruction_0: reconstruction generic map (16,16,10,16)  port map(rec_low_in=>low_des(4),rec_high_in=>high_des(4),reset=>reset_m,clk=>clock,y_out=>out_s(0));
 				reconstruction_1: reconstruction generic map (16,16,10,8)  port map(rec_low_in=>out_s(0),rec_high_in=>out_delay(3),reset=>reset_m,clk=>clock,y_out=>out_s(1));

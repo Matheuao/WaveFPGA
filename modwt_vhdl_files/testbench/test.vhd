@@ -23,7 +23,7 @@ architecture TestB of test is
 
 begin
 
-  DUT: entity work.wavelet_main
+  DUT: entity work.modwt
     port map (
       in_x    => Entrada,
       clock   => fs,

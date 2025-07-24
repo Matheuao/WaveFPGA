@@ -21,6 +21,11 @@ def ler_2bytes_por_vez(caminho_arquivo):
         return valores_16bits
 
 def plot_inout(entrada, saida, delay = 301):
+    #para 2 niveis delay de 37
+    #para 3 niveis delay de 77
+    #para 4 niveis delay de 153
+    #para 5 niveis delay de 301
+
     # Converte para arrays numpy caso não sejam
     entrada = np.array(entrada)
     saida = np.array(saida)
