@@ -1,18 +1,39 @@
-to do list for improvement of the project
-- [.] add a python high level example of the algotith
-- [.] add a c goldem model
-- [ ] add a digital desing whith datapah and control block integreded
-- [ ] factory the code for a scalable design functions (MODWT and IMODWT)
-- [ ] add a fast and economic version of the desing
-- [ ] add a DE2-115 directory whith a ready to run version of the desing for the DE2 kit
-- [ ] add a redme doc whith link to the article
+# Wavelet Denoising on FPGA
 
+This repository contains the implementation of wavelet-based noise reduction techniques on FPGA for audio signal denoising. The full study, including methodology, experimental results, and discussion, is available in the following paper:
 
+[Audio Denoising with DWT/MODWT and FPGA Implementation](https://doi.org/10.14209/sbrt.2024.1571036715)
 
+## Repository Structure
 
-Equação para o delay (sem threshold):
+- `goldem_model/`  
+  C implementation of the MODWT algorithm with bit-exact behavior, matching the hardware implementation.
 
-    2*(2+ (2^l-2)*(N-1)) + D_anterior        para [l,0]
+- `high_level_reference/`  
+  Python implementation of the MODWT in floating point, used as a high-level reference model.
 
-    l -> nivel
-    N -> numero de coeficientes da wavelet
+- `input_output_data/`  
+  Audio `.wav` files used for validation and testing across different stages of the project.
+
+- `modwt_vhdl_files/`  
+  VHDL files containing the digital design of the MODWT implemented for FPGA.
+
+- `old_vhd/`  
+  Legacy VHDL files retained for reference purposes, not currently used in the project.
+
+## Citation
+
+If you use this work in your research or publications, please cite the following paper:
+
+```bibtex
+@inproceedings{Oliveira_2024,
+  author    = {Oliveira, Matheus and Gontijo, Walter and Noceti Filho, Sidnei and Batista, Eduardo},
+  title     = {Audio Denoising with DWT/MODWT and FPGA Implementation},
+  booktitle = {Proceedings of the XLII Brazilian Symposium on Telecommunications and Signal Processing (SBrT)},
+  year      = {2024},
+  address   = {Belém, Brazil},
+  month     = {Oct},
+  pages     = {1--5},
+  url       = {https://doi.org/10.14209/sbrt.2024.1571036715},
+  doi       = {10.14209/sbrt.2024.1571036715}
+}
