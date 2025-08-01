@@ -34,14 +34,14 @@ This script will:
 * `testbench/`
   VHDL testbench files that instantiate the design under test and apply stimulus vectors.
 * `visualizer.py`
-  Python script to parse simulation output (`.ghw` or converted CSV) and plot input vs. output waveforms for analysis.
+  Python script to parse simulation output.
 
 ### Using the Visualizer
 
-After running `run.sh`, generate CSV dumps from GHDL (if not automatic), then run:
+After running `run.sh`, generate dumps from GHDL (if not automatic), then run:
 
 ```bash
-python visualizer.py --input input_dump.csv --output output_dump.csv
+python visualizer.py
 ```
 
 This will display time-domain plots of the original and denoised signals.
@@ -57,19 +57,19 @@ If you use this VHDL model in your research or projects, please cite:
 
 ```bibtex
 @inproceedings{Oliveira_2024,
-  author    = {Oliveira, Matheus and Gontijo, Walter and Noceti Filho, Sidnei and Batista, Eduardo},
-  title     = {Audio Denoising with DWT/MODWT and FPGA Implementation},
-  booktitle = {Proceedings of the XLII Brazilian Symposium on Telecommunications and Signal Processing (SBrT)},
-  year      = {2024},
-  address   = {Belém, Brazil},
-  month     = {Oct},
-  pages     = {1--5},
-  url       = {https://doi.org/10.14209/sbrt.2024.1571036715},
-  doi       = {10.14209/sbrt.2024.1571036715}
-}
+    author = {Oliveira, Matheus and Gontijo, Walter and Noceti Filho, Sidnei and Batista, Eduardo},
+    booktitle = {Anais do XLII Simpósio Brasileiro de Telecomunicações e Processamento de Sinais (SBrT)}, 
+    year = {2024},
+    address ={Belém, Brasil},
+    month = {Oct},
+    pages = {1-5},
+    url = {https://doi.org/10.14209/sbrt.2024.1571036715},
+    title = {Denoising de Áudio com DWT/MODWT e Implementação em FPGA},
+    doi = {10.14209/sbrt.2024.1571036715}
+    }
 ```
 
 For questions or contributions, open an issue or pull request in the main repository.
 
-```
+
 

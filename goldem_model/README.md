@@ -34,16 +34,16 @@ If you use this work in your research, please cite:
 
 ```bibtex
 @inproceedings{Oliveira_2024,
-  author    = {Oliveira, Matheus and Gontijo, Walter and Noceti Filho, Sidnei and Batista, Eduardo},
-  title     = {Audio Denoising with DWT/MODWT and FPGA Implementation},
-  booktitle = {Proceedings of the XLII Brazilian Symposium on Telecommunications and Signal Processing (SBrT)},
-  year      = {2024},
-  address   = {Belém, Brazil},
-  month     = {Oct},
-  pages     = {1--5},
-  url       = {https://doi.org/10.14209/sbrt.2024.1571036715},
-  doi       = {10.14209/sbrt.2024.1571036715}
-}
+    author = {Oliveira, Matheus and Gontijo, Walter and Noceti Filho, Sidnei and Batista, Eduardo},
+    booktitle = {Anais do XLII Simpósio Brasileiro de Telecomunicações e Processamento de Sinais (SBrT)}, 
+    year = {2024},
+    address ={Belém, Brasil},
+    month = {Oct},
+    pages = {1-5},
+    url = {https://doi.org/10.14209/sbrt.2024.1571036715},
+    title = {Denoising de Áudio com DWT/MODWT e Implementação em FPGA},
+    doi = {10.14209/sbrt.2024.1571036715}
+    }
 ```
 
 ---
