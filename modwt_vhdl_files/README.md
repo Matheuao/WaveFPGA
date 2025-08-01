@@ -11,7 +11,7 @@ This directory contains the synthesizable VHDL design files for the MODWT-based 
 - Python dependencies: install via  
   ```bash
   pip install numpy matplotlib scipy
-````
+    ````
 
 ## Simulation
 
