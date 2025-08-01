@@ -38,7 +38,7 @@ begin
 
   -- Reading stimulus
   stimulus_process: process
-    file infile2 : text open read_mode is "sweep_20_4k_fs8k.hex";
+    file infile2 : text open read_mode is "stimulus/sweep_20_4k_fs8k.hex";
     variable in_line2 : line;
     variable in_val2  : std_logic_vector(15 downto 0);
     variable ReadOK2  : boolean;
@@ -66,7 +66,7 @@ begin
 
   -- Writing output
   output_process: process
-    file outfile1 : text open write_mode is "saida.hex";
+    file outfile1 : text open write_mode is "stimulus/saida.hex";
     variable out_line1 : line;
   begin
     while finished = '0' loop
