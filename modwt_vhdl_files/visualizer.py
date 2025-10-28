@@ -59,7 +59,14 @@ def hex_to_int16(caminho_arquivo):
 
         return valores_16bits
 def delay(type = "modwt_multi_level", level=0, n_coeficient = 10):
+    '''
+    function that modeling the delay in each level of decompositon
     
+    #para 2 niveis delay de 37
+    #para 3 niveis delay de 77
+    #para 4 niveis delay de 153
+    #para 5 niveis delay de 301
+    '''
     if type ==  "modwt_multi_level":
         d_previous = 0
         delay = 0
@@ -73,10 +80,6 @@ def delay(type = "modwt_multi_level", level=0, n_coeficient = 10):
     return delay + 15
 
 def plot_inout(entrada, saida, delay = 15):
-    #para 2 niveis delay de 37
-    #para 3 niveis delay de 77
-    #para 4 niveis delay de 153
-    #para 5 niveis delay de 301
 
     # Converte para arrays numpy caso não sejam
     entrada = np.array(entrada)
@@ -122,7 +125,8 @@ def plot_inout(entrada, saida, delay = 15):
     plt.tight_layout()
     plt.show()
 
-    
+#def check_goldem_model():
+
 # Exemplo de uso
 saida = hex_to_int16('stimulus/saida.hex')
 entrada = hex_to_int16('stimulus/sweep_20_4k_fs8k.hex')

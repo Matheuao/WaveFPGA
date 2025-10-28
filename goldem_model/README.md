@@ -8,12 +8,21 @@ To compile the C-based golden model, run:
 
 ```bash
 bash build.sh
-````
+```
 
 The executable will be generated at:
 
 ```
 bin/modwt
+```
+
+For python usege:
+```bash
+python3 setup.py build_ext --inplace
+```
+and run the script:
+```bash
+python3 exe.py
 ```
 
 This binary processes input `.wav` files and outputs the denoised signal for validation and comparison.
