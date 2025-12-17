@@ -4,13 +4,14 @@ import glob
 import os
 import io
 import re
+import numpy
 
 def collect_c_sources():
     # arquivos principais do seu projeto + wrapper
     patterns = [
-        'pydenoiser.c',            # seu wrapper (obrigatório)
-        'src/*.c',                 # código fonte do projeto
-        'lib/bit_exact/src/*.c',   # fontes da lib externa
+        'pywavegoden.c',          # wrapper novo
+        'src/*.c',                # código fonte do projeto
+        'lib/bit_exact/src/*.c',  # fontes da lib externa
     ]
     files = []
     for p in patterns:
@@ -23,38 +24,37 @@ def collect_c_sources():
     for f in files:
         try:
             with io.open(f, 'r', encoding='utf-8', errors='ignore') as fh:
-                content = fh.read(4096)  # ler início do arquivo é suficiente na maioria dos casos
+                content = fh.read(4096)
                 if main_re.search(content):
                     print("setup.py: excluindo (contém main) ->", f)
                     continue
         except Exception:
-            # se houve problema lendo, incluímos o arquivo (falhas de leitura não decisivas)
             pass
         filtered.append(f)
     return filtered
 
 sources = collect_c_sources()
 
-# include dirs (igual ao seu comando gcc)
 include_dirs = [
     'include',
     'lib/bit_exact/include',
+    numpy.get_include(),   # necessário para NumPy C API
 ]
 
-# Compilar como C; linkar com libm (-lm)
-denoiser_module = Extension(
-    name='denoiser',
+# Se precisar linkar libs adicionais, adicione em libraries=[]
+wavegoden_module = Extension(
+    name='WaveGoden',
     sources=sources,
     include_dirs=include_dirs,
     libraries=['m'],                 # link libm (math)
     extra_compile_args=['-O3', '-fPIC'],
-    extra_link_args=[],              # geralmente não precisa de '-lm' aqui pois libraries=['m'] já cobre
+    extra_link_args=[],
     language='c',
 )
 
 setup(
-    name='denoiser',
+    name='WaveGoden',
     version='0.1.0',
-    description='Python wrapper for C denoising (modwt) implementation',
-    ext_modules=[denoiser_module],
+    description='Python wrapper for MODWT (modwt)(C implementation)',
+    ext_modules=[wavegoden_module],
 )

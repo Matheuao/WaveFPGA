@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+import re
 
 def noisy_data(data, snr_val):
 # Generate a noisy signal by adding white Gaussian noise to the clean signal.
@@ -125,10 +127,86 @@ def plot_inout(entrada, saida, delay = 15):
     plt.tight_layout()
     plt.show()
 
-#def check_goldem_model():
+def test_1(in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
+           out_path = 'stimulus/saida.hex',
+           levels = 5):
 
-# Exemplo de uso
-saida = hex_to_int16('stimulus/saida.hex')
-entrada = hex_to_int16('stimulus/sweep_20_4k_fs8k.hex')
 
-plot_inout(entrada, saida, delay = delay(level = 5))
+    saida = hex_to_int16(out_path)
+    entrada = hex_to_int16(in_path)
+
+    plot_inout(entrada, saida, delay = delay(level = levels))
+
+def plot_wavelet_coeffs(stimulus_path = "stimulus"):
+    """
+    Lê e plota os coeficientes Ca_i e Cd_i contidos em stimulus_path.
+    Espera arquivos no formato: Ca_1.hex, Cd_1.hex, Ca_2.hex, Cd_2.hex, ...
+    """
+
+    # Regex para identificar Ca_i e Cd_i
+    pattern = re.compile(r'(Ca|Cd)_(\d+)\.hex')
+
+    Ca_files = {}
+    Cd_files = {}
+
+    # Varre o diretório
+    for fname in os.listdir(stimulus_path):
+        match = pattern.match(fname)
+        if match:
+            kind, level = match.groups()
+            level = int(level)
+            full_path = os.path.join(stimulus_path, fname)
+
+            if kind == 'Ca':
+                Ca_files[level] = full_path
+            else:
+                Cd_files[level] = full_path
+
+    levels = sorted(set(Ca_files.keys()) | set(Cd_files.keys()))
+    n_levels = len(levels)
+
+    if n_levels == 0:
+        raise RuntimeError("Nenhum arquivo Ca_i ou Cd_i encontrado.")
+
+    # Cria figura
+    fig, axes = plt.subplots(
+        n_levels, 2,
+        figsize=(14, 2.5 * n_levels),
+        sharex=False
+    )
+
+    if n_levels == 1:
+        axes = np.array([axes])  # garante indexação consistente
+
+    for i, level in enumerate(levels):
+        # --- Ca ---
+        if level in Ca_files:
+            Ca = hex_to_int16(Ca_files[level])
+            axes[i, 0].plot(Ca)
+            axes[i, 0].set_title(f'Ca – Nível {level}')
+            axes[i, 0].set_ylabel('Amplitude')
+            axes[i, 0].grid(True)
+        else:
+            axes[i, 0].text(0.5, 0.5, 'Ausente', ha='center', va='center')
+            axes[i, 0].set_title(f'Ca – Nível {level}')
+
+        # --- Cd ---
+        if level in Cd_files:
+            Cd = hex_to_int16(Cd_files[level])
+            axes[i, 1].plot(Cd)
+            axes[i, 1].set_title(f'Cd – Nível {level}')
+            axes[i, 1].grid(True)
+        else:
+            axes[i, 1].text(0.5, 0.5, 'Ausente', ha='center', va='center')
+            axes[i, 1].set_title(f'Cd – Nível {level}')
+
+    axes[-1, 0].set_xlabel('Índice')
+    axes[-1, 1].set_xlabel('Índice')
+
+    fig.suptitle('Coeficientes da Decomposição Wavelet', fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.97])
+    plt.show()
+
+
+#plot_wavelet_coeffs()
+test_1()

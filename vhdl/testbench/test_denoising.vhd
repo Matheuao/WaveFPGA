@@ -5,10 +5,10 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 
-entity test is
-end entity test;
+entity test_denoising is
+end entity test_denoising;
 
-architecture TestB of test is
+architecture TestB of test_denoising is
 
   constant ordem : natural := 3;
 
@@ -23,12 +23,12 @@ architecture TestB of test is
 
 begin
 
-  DUT: entity work.modwt
+  DUT: entity work.NDWT_denoising
     port map (
       in_x    => Entrada,
       clock   => fs,
       out_y   => Y1,
-      reset_m => rst
+      reset => rst
     );
 
   RES1 <= std_logic_vector(Y1);

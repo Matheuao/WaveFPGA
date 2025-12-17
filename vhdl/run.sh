@@ -2,7 +2,7 @@
 
 # === Configuration ===
 VHDL_VERSION=08 # VHDL 2008
-TOP_ENTITY=test
+TOP_ENTITY=test_denoising
 VCD_FILE=test.vcd
 STOP_TIME=10000ms
 
@@ -11,24 +11,37 @@ STOP_TIME=10000ms
 analyze() {
   echo "Starting analysis with VHDL-${VHDL_VERSION}..."
 
-  # Compile all source files in current directory
-  if compgen -G "*.vhd" > /dev/null; then
-    echo "Analyzing source files in current directory..."
-    ghdl -a --std=${VHDL_VERSION} *.vhd || { echo "Error analyzing source files."; exit 1; }
+  echo "Cleaning work library..."
+  rm -f work-obj08.cf
+
+  # 1) Packages
+  if compgen -G "packages/*.vhd" > /dev/null; then
+    echo "Analyzing packages..."
+    for f in packages/*.vhd; do
+      ghdl -a --std=${VHDL_VERSION} "$f" || exit 1
+    done
   else
-    echo "No VHDL source files found in current directory."
+    echo "No packages found."
   fi
 
-  # Compile all testbench files in ./testbench directory if exists
-  if [ -d "testbench" ]; then
-    if compgen -G "testbench/*.vhd" > /dev/null; then
-      echo "Analyzing testbench files in testbench/ directory..."
-      ghdl -a --std=${VHDL_VERSION} testbench/*.vhd || { echo "Error analyzing testbench files."; exit 1; }
-    else
-      echo "No VHDL testbench files found in testbench/ directory."
-    fi
+  # 2) Design files (root .vhd only, excluding packages)
+  if compgen -G "*.vhd" > /dev/null; then
+    echo "Analyzing design files..."
+    for f in *.vhd; do
+      ghdl -a --std=${VHDL_VERSION} "$f" || exit 1
+    done
   else
-    echo "No testbench directory found."
+    echo "No design VHDL files found."
+  fi
+
+  # 3) Testbench
+  if compgen -G "testbench/*.vhd" > /dev/null; then
+    echo "Analyzing testbench files..."
+    for f in testbench/*.vhd; do
+      ghdl -a --std=${VHDL_VERSION} "$f" || exit 1
+    done
+  else
+    echo "No testbench files found."
   fi
 
   echo "Analysis completed successfully."
