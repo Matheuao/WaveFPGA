@@ -10,7 +10,8 @@ entity NDWT_denoising is
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
 		s_h : integer := 2; -- tresholding rule, 1 for 'soft' 2 for 'hard' 
-		k   : integer :=16 -- Window of the avareging estimation 2^k.
+		k   : integer :=16; -- Window of the avareging estimation 2^k.
+        transform_version:ndwt_transform_version:=NDWT_V1
 		);
 	port(	
 		in_x : IN signed(w1-1 DOWNTO 0);
@@ -126,7 +127,7 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
         -- decomposition
 		ndwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				decomposition_0: transform_NDWT generic map(16,16,10,1,NDWT_V1) 
+				decomposition_0: transform_NDWT generic map(W1,W2,10,1,transform_version) 
 					port map(input_x=>in_x,
 							clk=>clock ,
 							reset=>reset
@@ -134,7 +135,7 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
 							output_low=>low_des(0),
 							output_high=>high_des(0));
 			else generate
-                decomposition_n: transform_NDWT generic map(16,16,10,2**i,NDWT_V1)
+                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,transform_version)
 					port map(input_x=>low_des(i-1),
 							clk=>clock,
 							reset=>reset
@@ -148,7 +149,7 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
         -- shifter registers
         delay_stage:
             for i in 0 to level-2 generate
-                shift_reg: shift_register generic map(16,delay(level_n =>level, stage => (level-1-i)))
+                shift_reg: shift_register generic map(W1,delay(level_n =>level, stage => (level-1-i)))
 					port map(x_in=>high_des(i),
 							clock=>clock,
 							reset=>reset
@@ -161,19 +162,17 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
 
         indwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				reconstruction_0: inv_transform_NDWT generic map (16,16,10,2**(level-1),NDWT_V1)
+				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**(level-1),transform_version)
 					port map(rec_low_in=>low_des(level-1),
 							rec_high_in=>high_des(level-1),
-							reset=>reset
-				,
+							reset=>reset,
 							clk=>clock,
 							y_out=>out_s(0));
 			else generate
-                reconstruction_n: inv_transform_NDWT generic map (16,16,10,2**(level-1-i),NDWT_V1)
+                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**(level-1-i),transform_version)
 					port map(rec_low_in=>out_s(i-1),
 							rec_high_in=>out_delay(level-1-i),
-							reset=>reset
-				,
+							reset=>reset,
 							clk=>clock,
 							y_out=>out_s(i));
             end generate edge_condition;

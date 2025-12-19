@@ -5,6 +5,7 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 use work.vector_types.all;
+use work.NDWT_types.all;
 
 entity NDWT_decomposition_tb is
 end entity NDWT_decomposition_tb;
@@ -26,7 +27,7 @@ architecture TestB of NDWT_decomposition_tb is
 begin
 
   DUT: entity work.NDWT_decomposition
-    generic map(W1=>16, W2=>16, level=>levels, align=>true)
+    generic map(W1=>16, W2=>16, level=>levels, align=>true, transform_version=>NDWT_V1)
     port map (
       in_x    => Entrada,
       clock   => fs,
