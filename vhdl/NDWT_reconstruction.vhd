@@ -9,8 +9,9 @@ entity NDWT_reconstruction is
 	GENERIC (
 		W1 : INTEGER := 16; -- Input and output bit width 
 		W2 : INTEGER := 16; -- multiplication tap bit width
-		level:integer:= 5 -- number of levels in de transform
-		);
+		level:integer:= 5; -- number of levels in de transform
+        transform_version:ndwt_transform_version := NDWT_V1
+	);
 	port(	
 		Ca_in :in signed_vector(level-1 downto 0)(W1-1 downto 0);
         Cd_in: in signed_vector(level-1 downto 0)(W1-1 downto 0);
@@ -45,15 +46,15 @@ signal solution:signed_vector(level-1 downto 0)(W1-1 downto 0);
 	begin
         indwt_n: for i in level-1 downto 0 generate
 			edge_condition: if i = level-1 generate
-				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**(level-1),NDWT_V1)
+				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**i,transform_version)
 					port map(rec_low_in=>Ca_in(i),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,
 							clk=>clock,
 							y_out=>solution(i));
 			else generate
-                reconstruction_n: inv_transform_NDWT generic map (W1,W1,10,2**(level-1-i),NDWT_V1)
-					port map(rec_low_in=>solution(i-1),
+                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**i,transform_version)
+					port map(rec_low_in=>solution(i+1),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,
 							clk=>clock,
@@ -61,8 +62,8 @@ signal solution:signed_vector(level-1 downto 0)(W1-1 downto 0);
             end generate edge_condition;
 		end generate indwt_n;
 
-    output_assigment:for i in level-1 downto 1 generate
-        out_intermediary(i)<= solution(i);
+    output_assigment:for i in level-2 downto 0 generate
+        out_intermediary(i)<= solution(i+1);
     end generate output_assigment;
     
     rec_out<= solution(0);

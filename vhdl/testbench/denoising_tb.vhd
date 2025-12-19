@@ -5,10 +5,10 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 
-entity test_denoising is
-end entity test_denoising;
+entity denoising_tb is
+end entity denoising_tb;
 
-architecture TestB of test_denoising is
+architecture TestB of denoising_tb is
 
   constant ordem : natural := 3;
 

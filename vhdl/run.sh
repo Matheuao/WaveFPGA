@@ -2,7 +2,7 @@
 
 # === Configuration ===
 VHDL_VERSION=08 # VHDL 2008
-TOP_ENTITY=test_denoising
+TOP_ENTITY=NDWT_reconstruction_tb
 VCD_FILE=test.vcd
 STOP_TIME=10000ms
 

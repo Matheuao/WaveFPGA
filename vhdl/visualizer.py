@@ -127,8 +127,8 @@ def plot_inout(entrada, saida, delay = 15):
     plt.tight_layout()
     plt.show()
 
-def test_1(in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
-           out_path = 'stimulus/saida.hex',
+def denoising_tb(in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
+           out_path = 'stimulus/reconstruction_out.hex',
            levels = 5):
 
 
@@ -137,7 +137,17 @@ def test_1(in_path = 'stimulus/sweep_20_4k_fs8k.hex',
 
     plot_inout(entrada, saida, delay = delay(level = levels))
 
-def plot_wavelet_coeffs(stimulus_path = "stimulus"):
+def NDWT_reconstruction_tb(in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
+           out_path = 'stimulus/reconstruction_out.hex',
+           levels = 5):
+
+
+    saida = hex_to_int16(out_path)
+    entrada = hex_to_int16(in_path)
+
+    plot_inout(entrada, saida, delay = delay(level = levels))
+
+def NDWT_decomposition_tb(stimulus_path = "stimulus"):
     """
     Lê e plota os coeficientes Ca_i e Cd_i contidos em stimulus_path.
     Espera arquivos no formato: Ca_1.hex, Cd_1.hex, Ca_2.hex, Cd_2.hex, ...
@@ -209,4 +219,4 @@ def plot_wavelet_coeffs(stimulus_path = "stimulus"):
 
 
 #plot_wavelet_coeffs()
-test_1()
+denoising_tb()
