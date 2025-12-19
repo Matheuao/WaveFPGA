@@ -1,5 +1,4 @@
 /input_output_data
-/goldem_model
 /vhdl/stimulus
 *.vcd
 *.cf
