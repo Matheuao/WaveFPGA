@@ -249,7 +249,8 @@ void modwt_dec( Word16* in,
                 Word16 coef_size){
 
     Word8 aux = 0;
-    Word16 buffer[input_size];
+    Word16 *buffer = (Word16*)malloc(input_size * sizeof(Word16));
+
     Word16 level;
     long i;
     
@@ -280,6 +281,7 @@ void modwt_dec( Word16* in,
         }        
     }
     free_modwt_object(wt);
+    free(buffer);
 }
 
 void modwt_rec( modwt_dec_obj* wt_dec, 
@@ -292,7 +294,7 @@ void modwt_rec( modwt_dec_obj* wt_dec,
     int aux = 0;
     int level = 0;
     long i = 0;
-    Word16 buffer[input_size];
+    Word16 *buffer = (Word16*)malloc(input_size * sizeof(Word16));
                             
     for(level = levels; level >= 1; level--){
             
@@ -308,6 +310,6 @@ void modwt_rec( modwt_dec_obj* wt_dec,
             imodwt(out->inv, buffer, out, g, h, level, coef_size);
         }
     }
-                        
+    free(buffer);                      
 }
     

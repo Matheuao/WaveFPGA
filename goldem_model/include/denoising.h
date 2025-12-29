@@ -26,6 +26,7 @@ typedef struct{
 
 void init_default_parameters(parameters* p);
 
-void denoising(char* in_path, char* out_path, parameters* p);
+void denoising_write(char* in_path, char* out_path, parameters* p);
+void denoising(pcm_file_obj* in, Word16* out, parameters* p);
 
 #endif

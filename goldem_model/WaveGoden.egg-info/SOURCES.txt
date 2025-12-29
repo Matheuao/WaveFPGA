@@ -1,0 +1,16 @@
+README.md
+pywavegoden.c
+setup.py
+WaveGoden.egg-info/PKG-INFO
+WaveGoden.egg-info/SOURCES.txt
+WaveGoden.egg-info/dependency_links.txt
+WaveGoden.egg-info/top_level.txt
+lib/bit_exact/src/basic_op.c
+lib/bit_exact/src/oper_32b.c
+src/denoising.c
+src/file_io.c
+src/modwt_denoising.c
+src/modwt_multiresolution.c
+src/modwt_transform_core.c
+src/objects.c
+src/threshold.c

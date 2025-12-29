@@ -83,12 +83,11 @@ def delay(type = "modwt_multi_level", level=0, n_coeficient = 10):
 
 def plot_inout(entrada, saida, delay = 15):
 
-    # Converte para arrays numpy caso não sejam
     entrada = np.array(entrada)
     saida = np.array(saida)
     
     tam = len(saida)
-    # Calcula a diferença
+
     diferenca = entrada[0:tam-delay] - saida[delay:tam]
 
     max_input = max(entrada)
@@ -218,5 +217,6 @@ def NDWT_decomposition_tb(stimulus_path = "stimulus"):
     plt.show()
 
 
-#plot_wavelet_coeffs()
-denoising_tb()
+#denoising_tb()
+
+NDWT_decomposition_tb()

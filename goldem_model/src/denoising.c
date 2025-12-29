@@ -24,14 +24,13 @@ void init_default_parameters(parameters* p){
     p->s_h = 'h';
 }
 
-void denoising(char* in_path, char* out_path, parameters* p){
-    // todo: mudar in->size para que funcione com p->input_size, assim funciona em janelas
-    // resolvendo problemas de stack overflow (para arquivos muito grandes)
+void denoising_write(char* in_path, char* out_path, parameters* p){
+
     long i;
     pcm_file_obj *in = read_pcm(in_path);
     modwt_dec_obj *wt_m = init_modwt_dec_object(in->size, p->levels);
 
-    Word16 buffer[in->size];
+    Word16 *buffer = (Word16*)malloc(in->size * sizeof(Word16));
 
     modwt_dec(in->data, wt_m, p->g, p->h, p->levels, in->size, p->coef_size);
 
@@ -46,15 +45,46 @@ void denoising(char* in_path, char* out_path, parameters* p){
             wt_m->cd[i + (n * in->size)] = buffer[i];
         }
     }
+    free(buffer);
 
     imodwt_obj* iwt = init_inverse_modwt_object(in->size);
     modwt_rec(wt_m, iwt, p->g, p->h, p->levels, in->size, p->coef_size);
 
     write_pcm(out_path, iwt->inv, in->size);
-
+    
     free_pcm_file_object(in);
     free_modwt_dec_object(wt_m);
     free_inverse_modwt_object(iwt);
+}
 
+void denoising(pcm_file_obj* in, Word16* out, parameters* p){
+    long i;
+    modwt_dec_obj *wt_m = init_modwt_dec_object(in->size, p->levels);
+
+    Word16 *buffer = (Word16*)malloc(in->size * sizeof(Word16));
+
+    modwt_dec(in->data, wt_m, p->g, p->h, p->levels, in->size, p->coef_size);
+
+    for(int n = 0; n < p->levels; n++){
+        for (i = 0; i < in->size; i ++){
+            buffer[i]= wt_m->cd[i + (n * in->size)];
+        }
+
+        thresholding(buffer, in->size, p->s_h, p->k, p->cj[n]);
+        
+        for(i = 0; i < in->size; i++){
+            wt_m->cd[i + (n * in->size)] = buffer[i];
+        }
+    }
+    free(buffer);
+    
+    imodwt_obj* iwt = init_inverse_modwt_object(in->size);
+    modwt_rec(wt_m, iwt, p->g, p->h, p->levels, in->size, p->coef_size);
+
+    for(i = 0; i < in->size; i++){
+        out[i] = iwt->inv[i];
+    }
+    free_modwt_dec_object(wt_m);
+    free_inverse_modwt_object(iwt);
 }
 
