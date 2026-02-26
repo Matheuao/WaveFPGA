@@ -1,3 +1,30 @@
+"""
+-- ============================================================================
+--  MODWT_denoising.py
+--
+--  MODWT denoising implementation
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Compute the MODWT algorithm.
+--  References: 
+--  D. Percival and A. Walden, Wavelet Methods for Time Series Analysis,
+--  ser. Cambridge Series in Statistical and Probabilistic Mathematics.
+--  Cambridge University Press, 2000
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+"""
+
 # References: 
 #   D. Percival and A. Walden, Wavelet Methods for Time Series Analysis,
 #   ser. Cambridge Series in Statistical and Probabilistic Mathematics.

@@ -1,3 +1,26 @@
+/*
+-- ============================================================================
+--  denoising.h
+--
+--  Denoising goldem model implementation
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Compute the bit exact NDWT denoising. Goldem model for verification purposes.
+--  TODO:Implement de DWT denoising
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+*/
+
 #ifndef DENOISING_H
 #define DENOISING_H
 

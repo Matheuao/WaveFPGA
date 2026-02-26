@@ -1,7 +1,28 @@
+-- ============================================================================
+--  shift_register.vhd
+--
+--  Shift Register
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Shift register implementation.
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-
 
 entity shift_register is 
 

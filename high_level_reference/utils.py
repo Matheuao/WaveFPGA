@@ -1,3 +1,26 @@
+"""
+-- ============================================================================
+--  Utils.py
+--
+--  Utils functions
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  functions for test
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+"""
+
 import numpy as np
 #import json
 #import pywt # just to get the coeficients in a json file

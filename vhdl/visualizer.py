@@ -1,3 +1,26 @@
+""" 
+============================================================================
+--  visualizer.py
+--
+--  Visualization scrpit
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Script for waveform (files) visualiazition and verification. 
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+ ============================================================================
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os

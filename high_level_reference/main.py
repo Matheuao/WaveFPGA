@@ -1,3 +1,27 @@
+"""
+-- ============================================================================
+--  main.py
+--
+--  Main file for the high reference
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Main file the for call fuctions.
+--  TODO: incorporate this project into the golden model.
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+"""
+
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 import numpy as np

@@ -1,7 +1,27 @@
+-- ============================================================================
+--  threshold_hard.vhd
+--
+--  Threshold hard
+--
+--  Author       : Matheus Araújo de Oliveira
+--  Organization : Federal University of Santa Catarina (UFSC)
+--  Email        : matheusaop09@gmail.com
+--  Last modified: 2026-02-25
+--  Version      : 1.0
+--  Description:
+--  Threshold hard implementation. One step into the universal threshold algorithm
+--
+--  License:
+--    Free for academic and non-commercial research use.
+--    Commercial use requires a separate commercial license agreement.
+--    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+--
+--  Copyright (c) 2026 Matheus Araújo de Oliveira
+-- ============================================================================
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-
 
 entity threshold_hard is 
 			GENERIC (
@@ -20,12 +40,12 @@ end threshold_hard;
 architecture main of threshold_hard is
 
 
-
-
 component absavgestimator
 
 	generic( WSIZE: integer := 16;
-				K: integer := 10 );  -- Define o tamanho da janela, sendo que tau = 2^K. Para K = 10, tem-se tau = 1024.
+				K: integer := 10 ); --Define o tamanho da janela, 
+									--sendo que tau = 2^K. 
+									--Para K = 10, tem-se tau = 1024.
 	port( x: in std_logic_vector((WSIZE-1) downto 0):=(others=>'0');
 	  y: out std_logic_vector((WSIZE-1) downto 0):=(others=>'0');
 	  clock,reset: in std_logic);
@@ -41,21 +61,24 @@ signal sub_med:signed(W2 downto 0):=(others=>'0');
 
 signal t_val,t_val_aux,t_val_shift:signed(W2+2 downto 0) := (others=>'0');
 
-
-
+begin
 	
-	begin
+	abs_med1: absavgestimator generic map (WSIZE=>W2,K=>14) 
+	port map (x=>std_logic_vector(cd_ent),
+			  y=>res_med1,
+			  clock=>clk,
+			  reset=>rst);
 	
-	abs_med1: absavgestimator generic map (WSIZE=>W2,K=>14) port map (x=>std_logic_vector(cd_ent),y=>res_med1,clock=>clk,reset=>rst);
-	
-	abs_med2: absavgestimator generic map (WSIZE=>W2+1,K=>14) port map (x=>std_logic_vector(sub_med),y=>res_med2,clock=>clk,reset=>rst);
+	abs_med2: absavgestimator generic map (WSIZE=>W2+1,K=>14)
+	port map (x=>std_logic_vector(sub_med),
+			  y=>res_med2,
+			  clock=>clk,
+			  reset=>rst);
 	
 	res_med1_aux<=signed(res_med1);
 	
 	sub_med<= (('0'&(abs(cd_ent))) - ('0' & res_med1_aux));
 	
-
-
 	t_val_aux(W2-1 downto 0)<=signed(res_med2(W2-1 downto 0));
 	
 	t_val_shift <= shift_left(t_val_aux,3);
@@ -63,23 +86,12 @@ signal t_val,t_val_aux,t_val_shift:signed(W2+2 downto 0) := (others=>'0');
 	t_val(W2+1 downto 0)<=t_val_shift(W2+1 downto 0);
 	t_val(0)<='0';
 	
-	
 	process(cd_ent)
-	
 	begin
-	
 		if (abs(cd_ent) <  t_val) then --talvez seja possivel simplificar essa comparacao comparando apenas o bit mais significativo do sinal cd_ent
-		
 			cd_out<= (others=>'0');
-		
 		else 
-			
 			cd_out<=cd_ent;
-		
 		end if;
-	
-	
 	end process;
-		
-
 end main;
