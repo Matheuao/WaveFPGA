@@ -37,6 +37,7 @@ entity transform_NDWT is
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
 		clk  : in std_logic;
 		reset: in std_logic;
+		load: in std_logic;
 		output_low : out signed(W1-1 DOWNTO 0):=(others=>'0');
 		output_high : out signed(W1-1 downto 0):=(others=>'0')
 	);
@@ -93,7 +94,7 @@ init_transform : if transform_version = NDWT_V1 generate
 
 	input: reg generic map(W1=>16) 
 		   port map(reg_in=>input_x,
-		   			load=>'1',
+		   			load=>load,
 					reset=>reset,
 					clk=>clk,
 					reg_out=>x);
@@ -112,7 +113,7 @@ init_transform : if transform_version = NDWT_V1 generate
 				port map(x_in=>a(i),
 						 clock=>clk,
 						 reset=>reset,
-						 enable=>'1',
+						 enable=>load,
 						 x_out=>conect_delay_a(i));
 				
 			a(i-1)<=conect_delay_a(i)+x_mult(i-1);
@@ -121,27 +122,91 @@ init_transform : if transform_version = NDWT_V1 generate
 				port map(x_in=>b(i),
 						 clock=>clk, 
 						 reset=>reset, 
-						 enable=>'1', 
+						 enable=>load, 
 						 x_out=>conect_delay_b(i));
 				
 			b(i-1)<=conect_delay_b(i)+k_mult(i-1);
 			
-
 		end generate sum;
-		
 		
 		output_lowpass_coefficients: reg generic map(W1=>16) 
 			port map(reg_in=>a(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-					 load=>'1',
+					 load=>load,
 					 reset=>reset,
 					 clk=>clk,
 					 reg_out=>output_low);
 		output_highpass_coefficients: reg generic map(W1=>16) 
 			port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-					 load=>'1',
+					 load=>load,
 					 reset=>reset,
 					 clk=>clk,
 					 reg_out=>output_high);
+
+elsif transform_version = NDWT_v2 generate
+	
+	input: reg generic map(W1=>16) 
+		   port map(reg_in=>input_x,
+		   			load=>load,
+					reset=>reset,
+					clk=>clk,
+					reg_out=>x);
+	
+	-- adding registers after the multiplication
+	process(clk,reset)
+	begin
+		if reset = '1' then
+			for i in 0 to coefficient_size-1 loop 
+				x_mult(i)<=(others => '0');
+				k_mult(i)<=(others => '0');
+			end loop;
+		else
+			if rising_edge(clk) then
+				for i in 0 to coefficient_size-1 loop 
+						x_mult(i)<=x*ld(i);
+						k_mult(i)<=x*hd(i);
+				end loop;
+			-- maybe add a signal load for better power efficiency
+			end if;
+		end if;
+	end process;					
+	a(coefficient_size-1)<=x_mult(coefficient_size-1);
+	b(coefficient_size-1)<=k_mult(coefficient_size-1);
+		
+	sum :for i in coefficient_size-1 downto 1 generate -- FIR transposed form
+
+			delay_a: shift_register generic map((W1+W2),n_delay) 
+				port map(x_in=>a(i),
+						 clock=>clk,
+						 reset=>reset,
+						 enable=>load,
+						 x_out=>conect_delay_a(i));
+				
+			a(i-1)<=conect_delay_a(i)+x_mult(i-1);
+				
+			delay_b: shift_register generic map((W1+W2),n_delay) 
+				port map(x_in=>b(i),
+						 clock=>clk, 
+						 reset=>reset, 
+						 enable=>load, 
+						 x_out=>conect_delay_b(i));
+				
+			b(i-1)<=conect_delay_b(i)+k_mult(i-1);
+		
+		end generate sum;
+		
+		output_lowpass_coefficients: reg generic map(W1=>16) 
+			port map(reg_in=>a(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
+					 load=>load,
+					 reset=>reset,
+					 clk=>clk,
+					 reg_out=>output_low);
+		output_highpass_coefficients: reg generic map(W1=>16) 
+			port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
+					 load=>load,
+					 reset=>reset,
+					 clk=>clk,
+					 reg_out=>output_high);
+
 
 end generate init_transform;
 
