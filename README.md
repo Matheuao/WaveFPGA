@@ -21,6 +21,49 @@ This repository contains the implementation of wavelet-based noise reduction tec
 - `old_vhd/`  
   Legacy VHDL files retained for reference purposes, not currently used in the project.
 
+## Performance Benchmarks
+
+Only the first level of the NDWT was synthesized. The same SDC constraint file was used in all tests, with no timing violations observed.
+
+### Design Overview
+
+| Parameter                | NDWT_v1              | NDWT_v2              |
+|------------------------|---------------------|---------------------|
+| Flow Status            | Successful          | Successful          |
+| Quartus Version        | 23.1std.0 Build 991 | 23.1std.0 Build 991 |
+| Top-level Entity       | transform_NDWT      | transform_NDWT      |
+| Device                 | EP4CE75F29C7        | EP4CE75F29C7        |
+| Family                 | Cyclone IV E        | Cyclone IV E        |
+| Timing Model           | Final               | Final               |
+
+---
+
+### Resource Utilization
+
+| Resource                        | NDWT_v1                  | NDWT_v2        |
+|---------------------------------|--------------------------|----------------|
+| Logic Elements                  | 1,659 / 75,408 (2%)      | 1,974          |
+| Registers                       | 604                      | 1,218          |
+| Pins                            | 50 / 427 (12%)           | 50             |
+| Virtual Pins                    | 0                        | 0              |
+| Memory Bits                     | 0 / 2,810,880 (0%)       | 0              |
+| Embedded Multipliers (9-bit)    | 0 / 400 (0%)             | 0              |
+| PLLs                            | 0 / 4 (0%)               | 0              |
+
+---
+
+### Timing Results (Slow 1200mV, 85°C Model)
+
+| Metric            | NDWT_v1   | NDWT_v2   |
+|-------------------|-----------|-----------|
+| Fmax              | 96.04 MHz | 106.56 MHz|
+| Setup Slack       | 0.588 ns  | 1.616 ns  |
+| Setup TNS         | 0.000 ns  | 0.000 ns  |
+| Hold Slack        | 0.434 ns  | 0.431 ns  |
+| Hold TNS          | 0.000 ns  | 0.000 ns  |
+
+---
+
 ## Citation
 
 If you use this work in your research or publications, please cite the following paper:

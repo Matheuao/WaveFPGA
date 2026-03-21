@@ -36,9 +36,10 @@ entity NDWT_decomposition is
 		transform_version:ndwt_transform_version := NDWT_V1
 		);
 	port(	
-		in_x : IN signed(w1-1 DOWNTO 0);
+		in_x : in signed(w1-1 DOWNTO 0);
 		clock: in std_logic;
 		reset: in std_logic;
+		load: in std_logic;
 		Ca :out signed_vector(level-1 downto 0)(W1-1 downto 0);
 		Cd: out signed_vector(level-1 downto 0)(W1-1 downto 0)
 	);
@@ -76,6 +77,7 @@ component transform_NDWT
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
 		clk  : in std_logic;
 		reset: in std_logic;
+		load: in std_logic;
 		output_low : out signed(W1-1 DOWNTO 0):=(others=>'0');
 		output_high : out signed(W1-1 downto 0):=(others=>'0')
 	);
@@ -106,6 +108,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 					port map(input_x=>in_x,
 							clk=>clock ,
 							reset=>reset,
+							load=> load,
 							output_low=>low_des(0),
 							output_high=>high_des(0));
 			else generate
@@ -113,6 +116,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 					port map(input_x=>low_des(i-1),
 							clk=>clock,
 							reset=>reset,
+							load=> load,
 							output_low=>low_des(i),
 							output_high=>high_des(i));
 			end generate edge_condition;
@@ -126,7 +130,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 					port map(x_in=>high_des(i),
 							clock=>clock,
 							reset=>reset,
-							enable=>'1',
+							enable=>load,
 							x_out=>Cd(i));
 				end generate delay_stage;
 			
