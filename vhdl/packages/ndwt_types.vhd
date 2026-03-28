@@ -27,8 +27,8 @@ package ndwt_types is
   -- Versões da transformada NDWT
   type ndwt_transform_version is (
     NDWT_V1,
-    NDWT_V2
-    NDWT_V3,
+    NDWT_V2,
+    NDWT_V3
   );
 
 end package ndwt_types;

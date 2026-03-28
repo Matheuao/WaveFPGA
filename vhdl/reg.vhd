@@ -27,7 +27,7 @@ USE ieee.numeric_std.all;
 
 entity reg is
 
-	generic(W1: integer);
+	generic(W1: integer :=16);
 	port ( signal reg_in :in  signed(W1-1 downto 0):=(others=>'0') ;
 			signal load: in std_logic;
 			signal reset: in std_logic;

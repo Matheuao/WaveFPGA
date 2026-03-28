@@ -1,5 +1,7 @@
 /input_output_data
 /vhdl/stimulus
 /old_vhd
+/ideas
+/synthesis
 *.vcd
 *.cf

@@ -56,6 +56,7 @@ begin
       in_x    => Entrada,
       clock   => fs,
       reset   => rst,
+      load =>'1',
       Ca => Ca,
       Cd => Cd
     );

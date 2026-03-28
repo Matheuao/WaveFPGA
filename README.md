@@ -27,40 +27,40 @@ Only the first level of the NDWT was synthesized. The same SDC constraint file w
 
 ### Design Overview
 
-| Parameter                | NDWT_v1              | NDWT_v2              |
-|------------------------|---------------------|---------------------|
-| Flow Status            | Successful          | Successful          |
-| Quartus Version        | 23.1std.0 Build 991 | 23.1std.0 Build 991 |
-| Top-level Entity       | transform_NDWT      | transform_NDWT      |
-| Device                 | EP4CE75F29C7        | EP4CE75F29C7        |
-| Family                 | Cyclone IV E        | Cyclone IV E        |
-| Timing Model           | Final               | Final               |
+| Parameter              | NDWT_v1             | NDWT_v2             | NDWT_v2             |
+|------------------------|---------------------|---------------------|---------------------|
+| Flow Status            | Successful          | Successful          | Successful          |
+| Quartus Version        | 23.1std.0 Build 991 | 23.1std.0 Build 991 | 23.1std.0 Build 991 |
+| Top-level Entity       | transform_NDWT      | transform_NDWT      | transform_NDWT      |
+| Device                 | EP4CE115F29C7       | EP4CE115F29C7       | EP4CE115F29C7       |
+| Family                 | Cyclone IV E        | Cyclone IV E        | Cyclone IV E        |
+| Timing Model           | Final               | Final               | Final               |
 
 ---
 
 ### Resource Utilization
 
-| Resource                        | NDWT_v1                  | NDWT_v2        |
-|---------------------------------|--------------------------|----------------|
-| Logic Elements                  | 1,659 / 75,408 (2%)      | 1,974          |
-| Registers                       | 604                      | 1,218          |
-| Pins                            | 50 / 427 (12%)           | 50             |
-| Virtual Pins                    | 0                        | 0              |
-| Memory Bits                     | 0 / 2,810,880 (0%)       | 0              |
-| Embedded Multipliers (9-bit)    | 0 / 400 (0%)             | 0              |
-| PLLs                            | 0 / 4 (0%)               | 0              |
+| Resource                        | NDWT_v1                  | NDWT_v2        | NDWT_v3       |
+|---------------------------------|--------------------------|----------------|---------------|
+| Logic Elements                  | 1,689 / 114,480 ( 1 % )  | 1,936          | 1387          |
+| Registers                       | 604                      | 1,218          | 680           |
+| Pins                            | 51 / 529 (10%)           | 51             | 51            |
+| Virtual Pins                    | 0                        | 0              | 0             |
+| Memory Bits                     | 0 / 3,981,312 ( 0 % )    | 0              | 0             |
+| Embedded Multipliers (9-bit)    | 0 / 532 ( 0 % )          | 0              | 0             |
+| PLLs                            | 0 / 4 ( 0 % )            | 0              | 0             |
 
 ---
 
 ### Timing Results (Slow 1200mV, 85°C Model)
 
-| Metric            | NDWT_v1   | NDWT_v2   |
-|-------------------|-----------|-----------|
-| Fmax              | 96.04 MHz | 106.56 MHz|
-| Setup Slack       | 0.588 ns  | 1.616 ns  |
-| Setup TNS         | 0.000 ns  | 0.000 ns  |
-| Hold Slack        | 0.434 ns  | 0.431 ns  |
-| Hold TNS          | 0.000 ns  | 0.000 ns  |
+| Metric            | NDWT_v1   | NDWT_v2   | NDWT_v2   |
+|-------------------|-----------|-----------|-----------|
+| Fmax              | 96.01 MHz | 110.02 MHz| 101.77 MHz|
+| Setup Slack       | 0.584 ns  | 1.911 ns  | 1.174 ns  |
+| Setup TNS         | 0.000 ns  | 0.000 ns  | 0.000 ns  |
+| Hold Slack        | 0.634 ns  | 0.427 ns  | 0.637 ns  |
+| Hold TNS          | 0.000 ns  | 0.000 ns  | 0.000 ns  |
 
 ---
 

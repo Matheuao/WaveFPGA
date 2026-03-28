@@ -31,7 +31,7 @@ entity transform_NDWT is
 			W2 : INTEGER := 16;--32 -- coeficients width	
 			coefficient_size: INTEGER:=10;
 			n_delay:integer:=1; -- only necessary for the NDWT
-			transform_version:ndwt_transform_version := NDWT_V2
+			transform_version:ndwt_transform_version := NDWT_V3
 			);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');

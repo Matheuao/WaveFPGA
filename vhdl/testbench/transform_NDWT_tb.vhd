@@ -1,7 +1,7 @@
 -- ============================================================================
---  NDWT_reconstruction_tb.vhd
+--  NDWT_decomposition_tb.vhd
 --
---  NDWT reconstruction testbench
+--  NDWT decomposition Testench
 --
 --  Author       : Matheus Araújo de Oliveira
 --  Organization : Federal University of Santa Catarina (UFSC)
@@ -9,7 +9,7 @@
 --  Last modified: 2026-02-25
 --  Version      : 1.0
 --  Description:
---  Verification testbench for the NDWT reconstruction component.
+--  Verification Testench for the NDWT decomposition component.
 --  Use the visualizer.py script.
 --  TODO:Compare the component with a goldem model.
 --
@@ -31,10 +31,12 @@ use std.textio.all;
 use work.vector_types.all;
 use work.NDWT_types.all;
 
-entity NDWT_reconstruction_tb is
-end entity NDWT_reconstruction_tb;
 
-architecture TestB of NDWT_reconstruction_tb is
+entity transform_NDWT_tb is
+end entity transform_NDWT_tb;
+
+architecture Test of transform_NDWT_tb is
+  constant TB_TRANSFORM_VERSION : ndwt_transform_version := NDWT_V3;
 
   constant ordem : natural := 3;
 
@@ -45,46 +47,43 @@ architecture TestB of NDWT_reconstruction_tb is
 
   constant period  : time := 20 us;
   constant levels : integer := 5;
-  signal Ca: signed_vector(levels-1 downto 0)(15 downto 0);
-  signal Cd: signed_vector(levels-1 downto 0)(15 downto 0);
-  signal out_intermediary: signed_vector(levels-2 downto 0)(15 downto 0);
-  signal output : signed(15 downto 0);
+  signal Ca: signed(15 DOWNTO 0);
+  signal Cd: signed(15 DOWNTO 0);
 
 begin
 
-  DUT_decomposition: entity work.NDWT_decomposition
-    generic map(W1=>16, W2=>16, level=>levels, align=>true, transform_version=>NDWT_V1)
+  DUT: entity work.transform_NDWT
+    generic map(W1=>16, 
+                W2=>16, 
+                coefficient_size=>10, 
+                n_delay=>1, 
+                transform_version=>TB_TRANSFORM_VERSION)
     port map (
-      in_x => Entrada,
-      clock => fs,
+      input_x => Entrada,
+      clk => fs,
       reset => rst,
-      load => '1',
-      Ca => Ca,
-      Cd => Cd
+      load =>'1',
+      output_low => Ca,
+      output_high => Cd
     );
-  
-  DUT_reconstruction: entity work.NDWT_reconstruction
-    generic map(W1=>16, W2=>16, level=>levels, transform_version=>NDWT_V1)
-    port map (
-      Ca_in => Ca,
-      Cd_in => Cd,
-      clock => fs,
-      reset => rst,
-      out_intermediary => out_intermediary,
-      rec_out => output
-    );
-
 
 
   -- Clock signal generation
   fs <= not fs after period/2 when finished /= '1' else '0';
 
+report_process :process
+begin
+    report "transform_version = " &
+           ndwt_transform_version'image(TB_TRANSFORM_VERSION);
+    wait;
+end process;
+
   -- Reading stimulus
   stimulus_process: process
-    file infile2 : text open read_mode is "stimulus/sweep_20_4k_fs8k.hex";
-    variable in_line2 : line;
-    variable in_val2  : std_logic_vector(15 downto 0);
-    variable ReadOK2  : boolean;
+    file infile : text open read_mode is "stimulus/sweep_20_4k_fs8k.hex";
+    variable in_line : line;
+    variable in_val  : std_logic_vector(15 downto 0);
+    variable ReadOK  : boolean;
   begin
     rst <= '1';
     wait for 80 ns;
@@ -93,12 +92,12 @@ begin
 
     wait until fs = '1' and fs'event;
 
-    while not endfile(infile2) loop
-      readline(infile2, in_line2);
-      hread(in_line2, in_val2, ReadOK2);
+    while not endfile(infile) loop
+      readline(infile, in_line);
+      hread(in_line, in_val, ReadOK);
       
       wait for period;
-      Entrada <= signed(in_val2);
+      Entrada <= signed(in_val);
       
     end loop;
 
@@ -108,16 +107,23 @@ begin
   end process;
 
   -- Writing output
-  output_process: process
-    file outfile1 : text open write_mode is "stimulus/reconstruction_out.hex";
-    variable out_line1 : line;
+  Ca_Cd_1_output: process
+    file outfile_Ca : text open write_mode is "stimulus/Ca_1.hex";
+    variable outline_Ca : line;
+    file outfile_Cd : text open write_mode is "stimulus/Cd_1.hex";
+    variable outline_Cd : line;
   begin
     while finished = '0' loop
       wait until fs = '1' and fs'event;
-      hwrite(out_line1, std_logic_vector(output));
-      writeline(outfile1, out_line1);
+       
+      hwrite(outline_Ca, std_logic_vector(Ca));
+      writeline(outfile_Ca, outline_Ca);
+     
+      hwrite(outline_Cd, std_logic_vector(Cd));
+      writeline(outfile_Cd, outline_Cd);
     end loop;
     wait;
   end process;
 
-end architecture TestB;
+ 
+end architecture Test;
