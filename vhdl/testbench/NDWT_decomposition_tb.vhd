@@ -51,10 +51,14 @@ architecture TestB of NDWT_decomposition_tb is
 begin
 
   DUT: entity work.NDWT_decomposition
-    generic map(W1=>16, W2=>16, level=>levels, align=>true, transform_version=>NDWT_V1)
+    generic map(W1=>16, 
+                W2=>16, 
+                level=>levels, 
+                align=>true, 
+                transform_version=>NDWT_V2)
     port map (
       in_x    => Entrada,
-      clock   => fs,
+      clk   => fs,
       reset   => rst,
       load =>'1',
       Ca => Ca,

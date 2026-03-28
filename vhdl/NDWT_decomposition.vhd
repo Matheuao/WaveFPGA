@@ -33,11 +33,11 @@ entity NDWT_decomposition is
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
 		align:boolean := true; -- True/false for alignment of Ca and Cd in each level
-		transform_version:ndwt_transform_version := NDWT_V1
+		transform_version:ndwt_transform_version := NDWT_V3
 		);
 	port(	
 		in_x : in signed(w1-1 DOWNTO 0);
-		clock: in std_logic;
+		clk: in std_logic;
 		reset: in std_logic;
 		load: in std_logic;
 		Ca :out signed_vector(level-1 downto 0)(W1-1 downto 0);
@@ -106,7 +106,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 			edge_condition: if i = 0 generate
 				decomposition_0: transform_NDWT generic map(W1,W2,10,1,transform_version) 
 					port map(input_x=>in_x,
-							clk=>clock ,
+							clk=>clk ,
 							reset=>reset,
 							load=> load,
 							output_low=>low_des(0),
@@ -114,7 +114,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 			else generate
                 decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,transform_version)
 					port map(input_x=>low_des(i-1),
-							clk=>clock,
+							clk=>clk,
 							reset=>reset,
 							load=> load,
 							output_low=>low_des(i),
@@ -128,7 +128,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 			delay_stage: for i in 0 to level-2 generate
 				shift_reg: shift_register generic map(W1,delay(level_n =>level, stage => (level-1-i)))
 					port map(x_in=>high_des(i),
-							clock=>clock,
+							clock=>clk,
 							reset=>reset,
 							enable=>load,
 							x_out=>Cd(i));

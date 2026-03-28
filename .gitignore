@@ -5,3 +5,4 @@
 /synthesis
 *.vcd
 *.cf
+*.bak

@@ -242,4 +242,6 @@ def NDWT_decomposition_tb(stimulus_path = "stimulus"):
 
 #denoising_tb()
 
-NDWT_decomposition_tb()
+#NDWT_decomposition_tb()
+
+NDWT_reconstruction_tb()
