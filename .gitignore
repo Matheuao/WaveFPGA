@@ -3,6 +3,7 @@
 /old_vhd
 /ideas
 /synthesis
+/.vscode
 *.vcd
 *.cf
 *.bak
