@@ -27,23 +27,25 @@ Only the first level of the NDWT was synthesized. The same SDC constraint file w
 
 ### Design Overview
 
-| Parameter              | NDWT_v1             | NDWT_v2             | NDWT_v2             |
-|------------------------|---------------------|---------------------|---------------------|
-| Flow Status            | Successful          | Successful          | Successful          |
-| Quartus Version        | 23.1std.0 Build 991 | 23.1std.0 Build 991 | 23.1std.0 Build 991 |
-| Top-level Entity       | transform_NDWT      | transform_NDWT      | transform_NDWT      |
-| Device                 | EP4CE115F29C7       | EP4CE115F29C7       | EP4CE115F29C7       |
-| Family                 | Cyclone IV E        | Cyclone IV E        | Cyclone IV E        |
-| Timing Model           | Final               | Final               | Final               |
+|------------------------|---------------------|
+| Flow Status            | Successful          |
+| Quartus Version        | 23.1std.0 Build 991 | 
+| Top-level Entity       | transform_NDWT      | 
+| Device                 | EP4CE115F29C7       | 
+| Family                 | Cyclone IV E        | 
+| Timing Model           | Final               | 
 
+For all the tests: W1=W2=16, coefficient_size = 10
 ---
 
 ### Resource Utilization
+#### NDWT Direct Transform (n_delay = 1):
 
-| Resource                        | NDWT_v1                  | NDWT_v2        | NDWT_v3       |
+| OPTIMIZATION                    | None                     | None           | Shared_multipliers |
+| PIPELINE_STAGES                 | 0                        | 1              | 0             |
 |---------------------------------|--------------------------|----------------|---------------|
-| Logic Elements                  | 1,689 / 114,480 ( 1 % )  | 1,936          | 1387          |
-| Registers                       | 604                      | 1,218          | 680           |
+| Logic Elements                  | 1,689 / 114,480 ( 1 % )  | 1,913          | 1387          |
+| Registers                       | 604                      | 1,218          | 620           |
 | Pins                            | 51 / 529 (10%)           | 51             | 51            |
 | Virtual Pins                    | 0                        | 0              | 0             |
 | Memory Bits                     | 0 / 3,981,312 ( 0 % )    | 0              | 0             |
@@ -54,10 +56,11 @@ Only the first level of the NDWT was synthesized. The same SDC constraint file w
 
 ### Timing Results (Slow 1200mV, 85°C Model)
 
-| Metric            | NDWT_v1   | NDWT_v2   | NDWT_v2   |
+| OPTIMIZATION      | None      | None      | Shared_multipliers |
+| PIPELINE_STAGES   | 0         | 1         | 0         |
 |-------------------|-----------|-----------|-----------|
-| Fmax              | 96.01 MHz | 110.02 MHz| 101.77 MHz|
-| Setup Slack       | 0.584 ns  | 1.911 ns  | 1.174 ns  |
+| Fmax              | 96.01 MHz | 105.39 MHz| 101.77 MHz|
+| Setup Slack       | 0.584 ns  | 1.511 ns  | 1.174 ns  |
 | Setup TNS         | 0.000 ns  | 0.000 ns  | 0.000 ns  |
 | Hold Slack        | 0.634 ns  | 0.427 ns  | 0.637 ns  |
 | Hold TNS          | 0.000 ns  | 0.000 ns  | 0.000 ns  |

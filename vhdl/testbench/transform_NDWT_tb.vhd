@@ -29,16 +29,15 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 use work.vector_types.all;
-use work.NDWT_types.all;
+use work.transform_types.all;
 
 
 entity transform_NDWT_tb is
 end entity transform_NDWT_tb;
 
 architecture Test of transform_NDWT_tb is
-  constant TB_TRANSFORM_VERSION : ndwt_transform_version := NDWT_V3;
-
-  constant ordem : natural := 3;
+  constant TB_optimization : ndwt_transform_optimization := Shared_multipliers;
+  constant pipeline: integer := 0;
 
   signal Entrada   : signed(15 downto 0) := (others => '0');
   signal fs        : std_logic := '0';
@@ -57,7 +56,8 @@ begin
                 W2=>16, 
                 coefficient_size=>10, 
                 n_delay=>1, 
-                transform_version=>TB_TRANSFORM_VERSION)
+				pipeline_stages=>pipeline,
+                optimization=>TB_optimization)
     port map (
       input_x => Entrada,
       clk => fs,
@@ -73,8 +73,11 @@ begin
 
 report_process :process
 begin
-    report "transform_version = " &
-           ndwt_transform_version'image(TB_TRANSFORM_VERSION);
+    report "Optimization = " &
+    	ndwt_transform_optimization'image(TB_optimization);
+	
+	report "Pipeline stages = " & 
+		integer'image(pipeline);
     wait;
 end process;
 

@@ -23,7 +23,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-use work.ndwt_types.all;
+use work.transform_types.all;
 
 entity inv_transform_NDWT is 
 	GENERIC (
@@ -31,12 +31,14 @@ entity inv_transform_NDWT is
         W2 : INTEGER := 16;--32 -- coeficients width	
         coefficient_size: INTEGER:=10;
         n_delay:integer:=2;
-        transform_version:ndwt_transform_version := NDWT_V1
+        pipeline_stages: integer := 0;
+		optimization:ndwt_transform_optimization := None
         );
     port(
         rec_low_in : IN signed(w2-1 DOWNTO 0):=(others=>'0');
         rec_high_in : IN signed(W2-1 downto 0):=(others=>'0');
         reset: in std_logic;
+        load: in std_logic;
         clk	: in std_logic;
         y_out: out signed(W2-1 downto 0):=(others=>'0')
     );
@@ -85,18 +87,18 @@ end component;
 
 begin
 
-init_transform : if transform_version = NDWT_V1 generate
+gen_inv_None : if optimization = None generate
 
     entrada_x: reg generic map(W1) 
                 port map(reg_in=>rec_low_in,
-                         load=>'1',
+                         load=>load,
                          reset=>reset,
                          clk=>clk,
                          reg_out=>x);
     
     entrada_k: reg generic map(W1) 
                 port map(reg_in=>rec_high_in,
-                         load=>'1',
+                         load=>load,
                          reset=>reset,
                          clk=>clk,
                          reg_out=>k);
@@ -114,7 +116,7 @@ init_transform : if transform_version = NDWT_V1 generate
                     port map(x_in=>a(i), 
                             clock=>clk,
                             reset=>reset,
-                            enable=>'1',
+                            enable=>load,
                             x_out=>conect_delay_a(i));
                     
                 a(i-1)<=conect_delay_a(i)+x_mult(i-1) + k_mult(i-1);
@@ -123,11 +125,69 @@ init_transform : if transform_version = NDWT_V1 generate
 				
 	saida: reg generic map(W1) 
            port map(reg_in=>a(0)((W1+W2)-2 downto ((W1+W2)-2) - 15), 
-                    load=>'1',
+                    load=>load,
                     reset=>reset,
                     clk=>clk, 
                     reg_out=>y_out);
 		
-end generate init_transform;
+end generate gen_inv_None;
+
+gen_inv_Shared_multipliers : if optimization = Shared_multipliers generate
+    
+    entrada_x: reg generic map(W1) 
+                port map(reg_in=>rec_low_in,
+                         load=>load,
+                         reset=>reset,
+                         clk=>clk,
+                         reg_out=>x);
+    
+    entrada_k: reg generic map(W1) 
+                port map(reg_in=>rec_high_in,
+                         load=>load,
+                         reset=>reset,
+                         clk=>clk,
+                         reg_out=>k);
+
+    process(clk,reset)
+    begin
+        if reset = '1' then
+            for i in 0 to coefficient_size-1 loop 
+				x_mult(i)<=(others => '0');
+				k_mult(i)<=(others => '0');
+			end loop;
+        else
+            if rising_edge(clk) then
+                for i in 0 to coefficient_size loop
+                    x_mult(i)<=x*ld(coefficient_size-1-i);
+                    k_mult(i)<=k*hd(coefficient_size-1-i);
+                end loop;
+            end if;
+        end if;
+    end process;
+						
+	a(coefficient_size-1)<=x_mult(coefficient_size-1) + k_mult(coefficient_size-1);		
+		
+	scs3 : for i in coefficient_size-1 downto 1 generate
+
+                delay_a: shift_register generic map((W1+W2),n_delay) 
+                    port map(x_in=>a(i), 
+                            clock=>clk,
+                            reset=>reset,
+                            enable=>load,
+                            x_out=>conect_delay_a(i));
+                    
+                a(i-1)<=conect_delay_a(i)+x_mult(i-1) + k_mult(i-1);
+						
+		    end generate scs3;
+				
+	saida: reg generic map(W1) 
+           port map(reg_in=>a(0)((W1+W2)-2 downto ((W1+W2)-2) - 15), 
+                    load=>load,
+                    reset=>reset,
+                    clk=>clk, 
+                    reg_out=>y_out);
+
+end generate gen_inv_Shared_multipliers;
+
 
 end main;

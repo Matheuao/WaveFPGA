@@ -1,7 +1,7 @@
 -- ============================================================================
---  dwt_types.vhd
+--  transform_types.vhd
 --
---  DWT types package
+--  Transform types package
 --
 --  Author       : Matheus Araújo de Oliveira
 --  Organization : Federal University of Santa Catarina (UFSC)
@@ -9,7 +9,7 @@
 --  Last modified: 2026-02-25
 --  Version      : 1.0
 --  Description:
---  Package for DWT types.
+--  Package for NDWT types.
 --
 --  License:
 --    Free for academic and non-commercial research use.
@@ -19,20 +19,25 @@
 --  Copyright (c) 2026 Matheus Araújo de Oliveira
 -- ============================================================================
 
-
 library ieee;
 use ieee.std_logic_1164.all;
 
-package dwt_types is
+package transform_types is
 
-  -- Versões da transformada DWT
-  type dwt_transform_version is (
-    DWT_V1,
-    DWT_V2
-    -- NDWT_V3, etc.
+  -- Versões da transformada NDWT
+  type ndwt_transform_optimization is (
+    None,
+    Shared_multipliers,
+    Shared_registers
   );
 
-end package dwt_types;
+  type dwt_optimization is (
+    DWT_V1,
+    DWT_V2
+    -- None, etc.
+  );
 
-package body dwt_types is
-end package body dwt_types;
+end package transform_types;
+
+package body transform_types is
+end package body transform_types;

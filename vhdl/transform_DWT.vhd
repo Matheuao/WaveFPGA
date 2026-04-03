@@ -23,14 +23,14 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-use work.dwt_types.all;
+use work.transform_types.all;
 
 entity transform_DWT is 
 	GENERIC (
 		W1 : INTEGER := 16; -- Input and output bit width   
 		W2 : INTEGER := 16;--32 -- coeficients width	
 		coefficient_size: INTEGER:=8;
-        transform_version:dwt_transform_version := DWT_V1
+        optimization:dwt_optimization := DWT_V1
 		);
 
     port(
@@ -77,7 +77,7 @@ end component;
 	
 	begin
 	
-init_transform : if transform_version = DWT_V1 generate
+init_transform : if optimization = DWT_V1 generate
 
 	input: reg generic map(W1=>16) 
 		   port map(reg_in=>input_x,

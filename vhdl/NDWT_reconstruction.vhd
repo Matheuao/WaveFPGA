@@ -24,14 +24,14 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.all;
 USE work.vector_types.all;
-use work.ndwt_types.all;
+use work.transform_types.all;
 
 entity NDWT_reconstruction is 
 	GENERIC (
 		W1 : INTEGER := 16; -- Input and output bit width 
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
-        transform_version:ndwt_transform_version := NDWT_V1
+        optimization:ndwt_transform_optimization:= None
 	);
 	port(	
 		Ca_in :in signed_vector(level-1 downto 0)(W1-1 downto 0);
@@ -51,7 +51,7 @@ GENERIC (
 	W2 : INTEGER := 16;--32 -- coeficients width	
 	coefficient_size: INTEGER:=10;
 	n_delay:integer:=2;
-    transform_version:ndwt_transform_version := NDWT_V1
+    optimization: ndwt_transform_optimization:= None
 	);
     port(
         rec_low_in : IN signed(w2-1 DOWNTO 0):=(others=>'0');
@@ -67,14 +67,14 @@ signal solution:signed_vector(level-1 downto 0)(W1-1 downto 0);
 	begin
         indwt_n: for i in level-1 downto 0 generate
 			edge_condition: if i = level-1 generate
-				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**i,transform_version)
+				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**i,optimization)
 					port map(rec_low_in=>Ca_in(i),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,
 							clk=>clock,
 							y_out=>solution(i));
 			else generate
-                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**i,transform_version)
+                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**i,optimization)
 					port map(rec_low_in=>solution(i+1),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,

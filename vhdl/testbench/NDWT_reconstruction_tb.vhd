@@ -29,7 +29,7 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 use work.vector_types.all;
-use work.NDWT_types.all;
+use work.transform_types.all;
 
 entity NDWT_reconstruction_tb is
 end entity NDWT_reconstruction_tb;
@@ -53,7 +53,7 @@ architecture TestB of NDWT_reconstruction_tb is
 begin
 
   DUT_decomposition: entity work.NDWT_decomposition
-    generic map(W1=>16, W2=>16, level=>levels, align=>true, transform_version=>NDWT_V2)
+    generic map(W1=>16, W2=>16, level=>levels, align=>true, optimization=>None)
     port map (
       in_x => Entrada,
       clk => fs,
@@ -64,7 +64,7 @@ begin
     );
   
   DUT_reconstruction: entity work.NDWT_reconstruction
-    generic map(W1=>16, W2=>16, level=>levels, transform_version=>NDWT_V1)
+    generic map(W1=>16, W2=>16, level=>levels, optimization=>None)
     port map (
       Ca_in => Ca,
       Cd_in => Cd,

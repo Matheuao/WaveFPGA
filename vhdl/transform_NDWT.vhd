@@ -23,16 +23,17 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-USE work.ndwt_types.all;
+use work.transform_types.all;
 
 entity transform_NDWT is 
 	GENERIC (
-			W1 : INTEGER := 16; -- Input and output bit width   
-			W2 : INTEGER := 16;--32 -- coeficients width	
-			coefficient_size: INTEGER:=10;
-			n_delay:integer:=1; -- only necessary for the NDWT
-			transform_version:ndwt_transform_version := NDWT_V2
-			);
+		W1 : INTEGER := 16; -- Input and output bit width   
+		W2 : INTEGER := 16;--32 -- coeficients width	
+		coefficient_size: INTEGER:=10;
+		n_delay:integer:=1; -- only necessary for the NDWT
+		pipeline_stages: integer := 0;
+		optimization:ndwt_transform_optimization := Shared_multipliers
+		);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
 		clk  : in std_logic;
@@ -93,7 +94,7 @@ end component;
 	
 begin
 	
-gen_ndwt_v1 : if transform_version = NDWT_V1 generate
+gen_None : if optimization = None generate
 
 	input: reg generic map(W1=>16) 
 		   port map(reg_in=>input_x,
@@ -101,11 +102,34 @@ gen_ndwt_v1 : if transform_version = NDWT_V1 generate
 					reset=>reset,
 					clk=>clk,
 					reg_out=>x);
+
+	pipeline_0: if pipeline_stages = 0 generate
+
+		mult: for i in 0 to coefficient_size-1 generate --multiplication
+				x_mult(i)<=x*ld(i);
+				k_mult(i)<=x*hd(i);
+			end generate mult;
+	end generate pipeline_0;
+
+	pipeline_1: if pipeline_stages = 1 generate
 		
-	mult: for i in 0 to coefficient_size-1 generate --multiplication
-			x_mult(i)<=x*ld(i);
-			k_mult(i)<=x*hd(i);
-		end generate mult;
+		process(clk,reset)
+		begin
+			if reset = '1' then
+				for i in 0 to coefficient_size-1 loop 
+					x_mult(i)<=(others => '0');
+					k_mult(i)<=(others => '0');
+				end loop;
+			elsif rising_edge(clk) then
+				if load = '1' then
+					for i in 0 to coefficient_size-1 loop 
+							x_mult(i)<=x*ld(i);
+							k_mult(i)<=x*hd(i);
+					end loop;
+				end if;
+			end if;
+		end process;
+	end generate pipeline_1;
 						
 	a(coefficient_size-1)<=x_mult(coefficient_size-1);
 	b(coefficient_size-1)<=k_mult(coefficient_size-1);
@@ -145,75 +169,9 @@ gen_ndwt_v1 : if transform_version = NDWT_V1 generate
 					 clk=>clk,
 					 reg_out=>output_high);
 
-end generate gen_ndwt_v1;
+end generate gen_None;
 
-gen_ndwt_v2: if transform_version = NDWT_V2 generate
-	
-	input: reg generic map(W1=>16) 
-		   port map(reg_in=>input_x,
-		   			load=>load,
-					reset=>reset,
-					clk=>clk,
-					reg_out=>x);
-	
-	-- adding registers after the multiplication
-	process(clk,reset)
-	begin
-		if reset = '1' then
-			for i in 0 to coefficient_size-1 loop 
-				x_mult(i)<=(others => '0');
-				k_mult(i)<=(others => '0');
-			end loop;
-		else
-			if rising_edge(clk) then
-				for i in 0 to coefficient_size-1 loop 
-						x_mult(i)<=x*ld(i);
-						k_mult(i)<=x*hd(i);
-				end loop;
-			-- maybe add a signal load for better power efficiency
-			end if;
-		end if;
-	end process;					
-	a(coefficient_size-1)<=x_mult(coefficient_size-1);
-	b(coefficient_size-1)<=k_mult(coefficient_size-1);
-		
-	sum :for i in coefficient_size-1 downto 1 generate -- FIR transposed form
-
-			delay_a: shift_register generic map((W1+W2),n_delay) 
-				port map(x_in=>a(i),
-						 clock=>clk,
-						 reset=>reset,
-						 enable=>load,
-						 x_out=>conect_delay_a(i));
-				
-			a(i-1)<=conect_delay_a(i)+x_mult(i-1);
-				
-			delay_b: shift_register generic map((W1+W2),n_delay) 
-				port map(x_in=>b(i),
-						 clock=>clk, 
-						 reset=>reset, 
-						 enable=>load, 
-						 x_out=>conect_delay_b(i));
-				
-			b(i-1)<=conect_delay_b(i)+k_mult(i-1);
-		
-		end generate sum;
-		
-		output_lowpass_coefficients: reg generic map(W1=>16) 
-			port map(reg_in=>a(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-					 load=>load,
-					 reset=>reset,
-					 clk=>clk,
-					 reg_out=>output_low);
-		output_highpass_coefficients: reg generic map(W1=>16) 
-			port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-					 load=>load,
-					 reset=>reset,
-					 clk=>clk,
-					 reg_out=>output_high);
-end generate gen_ndwt_v2;
-
-gen_ndwt_v3: if transform_version = NDWT_V3 generate
+gen_Shared_multipliers: if optimization = Shared_multipliers generate
 	
 	input: reg generic map(W1=>W1) 
 		   port map(reg_in=>input_x,
@@ -221,17 +179,19 @@ gen_ndwt_v3: if transform_version = NDWT_V3 generate
 						reset=>reset,
 						clk=>clk,
 						reg_out=>x);
+	
+	pipeline_0: if pipeline_stages = 0 generate
 		
-	mult: for i in 0 to coefficient_size-1 generate --multiplication
+		mult: for i in 0 to coefficient_size-1 generate --multiplication
 			x_mult(i)<=x*ld(i);
 			
 			even_gen: if ((i+1) mod 2 = 0) generate 
 				k_mult(i)<=x_mult(coefficient_size-1-i);
-    		else generate
+			else generate
 				k_mult(i) <= not(x_mult(coefficient_size-1-i));
 			end generate even_gen;
-
 		end generate mult;
+	end generate pipeline_0;
 						
 	a(coefficient_size-1)<=x_mult(coefficient_size-1);
 	b(coefficient_size-1)<=k_mult(coefficient_size-1);
@@ -281,7 +241,7 @@ gen_ndwt_v3: if transform_version = NDWT_V3 generate
 					 clk=>clk,
 					 reg_out=>output_high);
 
-end generate gen_ndwt_v3;
+end generate gen_Shared_multipliers;
 
 
 end main;

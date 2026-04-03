@@ -29,7 +29,7 @@ use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 use std.textio.all;
 use work.vector_types.all;
-use work.NDWT_types.all;
+use work.transform_types.all;
 
 entity NDWT_decomposition_tb is
 end entity NDWT_decomposition_tb;
@@ -55,7 +55,7 @@ begin
                 W2=>16, 
                 level=>levels, 
                 align=>true, 
-                transform_version=>NDWT_V2)
+                optimization=>None)
     port map (
       in_x    => Entrada,
       clk   => fs,

@@ -24,7 +24,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.all;
-use work.ndwt_types.all;
+use work.transform_types.all;
 
 entity NDWT_denoising is 
 	GENERIC (
@@ -33,7 +33,7 @@ entity NDWT_denoising is
 		level:integer:= 5; -- number of levels in de transform
 		s_h : integer := 2; -- tresholding rule, 1 for 'soft' 2 for 'hard' 
 		k   : integer :=16; -- Window of the avareging estimation 2^k.
-        transform_version:ndwt_transform_version:=NDWT_V1
+        optimization:ndwt_transform_optimization:=None
 		);
 	port(	
 		in_x : IN signed(w1-1 DOWNTO 0);
@@ -69,7 +69,7 @@ component transform_NDWT
 		W2 : INTEGER := 16;--32 -- coeficients width	
 		coefficient_size: INTEGER:=10;
 		n_delay:integer:=1; -- only necessary for the NDWT
-		transform_version:ndwt_transform_version := NDWT_V1
+		optimization :ndwt_transform_optimization:= None
 		);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
@@ -86,7 +86,7 @@ GENERIC (
 	W2 : INTEGER := 16;--32 -- coeficients width	
 	coefficient_size: INTEGER:=10;
 	n_delay:integer:=2;
-    transform_version:ndwt_transform_version := NDWT_V1
+    optimization: ndwt_transform_optimization:= None
 	);
     port(
         rec_low_in : IN signed(w2-1 DOWNTO 0):=(others=>'0');
@@ -149,7 +149,7 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
         -- decomposition
 		ndwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				decomposition_0: transform_NDWT generic map(W1,W2,10,1,transform_version) 
+				decomposition_0: transform_NDWT generic map(W1,W2,10,1,optimization) 
 					port map(input_x=>in_x,
 							clk=>clock ,
 							reset=>reset
@@ -157,7 +157,7 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
 							output_low=>low_des(0),
 							output_high=>high_des(0));
 			else generate
-                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,transform_version)
+                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,optimization)
 					port map(input_x=>low_des(i-1),
 							clk=>clock,
 							reset=>reset
@@ -184,14 +184,14 @@ signal low_des,high_des,out_delay,out_threshold,out_s:vector_2:= (others=>X"0000
 
         indwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**(level-1),transform_version)
+				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**(level-1),optimization)
 					port map(rec_low_in=>low_des(level-1),
 							rec_high_in=>high_des(level-1),
 							reset=>reset,
 							clk=>clock,
 							y_out=>out_s(0));
 			else generate
-                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**(level-1-i),transform_version)
+                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**(level-1-i),optimization)
 					port map(rec_low_in=>out_s(i-1),
 							rec_high_in=>out_delay(level-1-i),
 							reset=>reset,

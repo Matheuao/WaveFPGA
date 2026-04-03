@@ -25,7 +25,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.math_real.all;
 USE work.vector_types.all;
-use work.ndwt_types.all;
+use work.transform_types.all;
 
 entity NDWT_decomposition is 
 	GENERIC (
@@ -33,7 +33,7 @@ entity NDWT_decomposition is
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
 		align:boolean := true; -- True/false for alignment of Ca and Cd in each level
-		transform_version:ndwt_transform_version := NDWT_V3
+		optimization:ndwt_transform_optimization := None
 		);
 	port(	
 		in_x : in signed(w1-1 DOWNTO 0);
@@ -71,7 +71,7 @@ component transform_NDWT
 		W2 : INTEGER := 16;--32 -- coeficients width	
 		coefficient_size: INTEGER:=10;
 		n_delay:integer:=1; -- only necessary for the NDWT
-		transform_version:ndwt_transform_version := NDWT_V1
+		optimization:ndwt_transform_optimization:= None
 		);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
@@ -104,7 +104,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
         -- decomposition
 		ndwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				decomposition_0: transform_NDWT generic map(W1,W2,10,1,transform_version) 
+				decomposition_0: transform_NDWT generic map(W1,W2,10,1,optimization) 
 					port map(input_x=>in_x,
 							clk=>clk ,
 							reset=>reset,
@@ -112,7 +112,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 							output_low=>low_des(0),
 							output_high=>high_des(0));
 			else generate
-                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,transform_version)
+                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,optimization)
 					port map(input_x=>low_des(i-1),
 							clk=>clk,
 							reset=>reset,
