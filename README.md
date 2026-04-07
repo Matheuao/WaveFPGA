@@ -27,13 +27,14 @@ Only the first level of the NDWT was synthesized. The same SDC constraint file w
 
 ### Design Overview
 
-|------------------------|---------------------|
-| Flow Status            | Successful          |
-| Quartus Version        | 23.1std.0 Build 991 | 
-| Top-level Entity       | transform_NDWT      | 
-| Device                 | EP4CE115F29C7       | 
-| Family                 | Cyclone IV E        | 
-| Timing Model           | Final               | 
+|  |  |
+| :--- | :--- |
+| **Flow Status**            | Successful          |
+| **Quartus Version**        | 23.1std.0 Build 991 | 
+| **Top-level Entity**       | transform_NDWT      | 
+| **Device**                 | EP4CE115F29C7       | 
+| **Family**                 | Cyclone IV E        | 
+| **Timing Model**           | Final               | 
 
 For all the tests: W1=W2=16, coefficient_size = 10
 ---
@@ -41,9 +42,9 @@ For all the tests: W1=W2=16, coefficient_size = 10
 ### Resource Utilization
 #### NDWT Direct Transform (n_delay = 1):
 
-| OPTIMIZATION                    | None                     | None           | Shared_multipliers |
-| PIPELINE_STAGES                 | 0                        | 1              | 0             |
-|---------------------------------|--------------------------|----------------|---------------|
+| **OPTIMIZATION**                    | None                     | None           | Shared_multipliers |
+| :---: | :---: | :---: | :---: |
+| **PIPELINE_STAGES**                 | 0                        | 1              | 0             |
 | Logic Elements                  | 1,689 / 114,480 ( 1 % )  | 1,913          | 1387          |
 | Registers                       | 604                      | 1,218          | 620           |
 | Pins                            | 51 / 529 (10%)           | 51             | 51            |
@@ -55,10 +56,9 @@ For all the tests: W1=W2=16, coefficient_size = 10
 ---
 
 ### Timing Results (Slow 1200mV, 85°C Model)
-
-| OPTIMIZATION      | None      | None      | Shared_multipliers |
-| PIPELINE_STAGES   | 0         | 1         | 0         |
-|-------------------|-----------|-----------|-----------|
+| **OPTIMIZATION**      | None      | None      | Shared_multipliers |
+| :---: | :---: | :---: | :---: |
+| **PIPELINE_STAGES**   | 0         | 1         | 0         |
 | Fmax              | 96.01 MHz | 105.39 MHz| 101.77 MHz|
 | Setup Slack       | 0.584 ns  | 1.511 ns  | 1.174 ns  |
 | Setup TNS         | 0.000 ns  | 0.000 ns  | 0.000 ns  |
