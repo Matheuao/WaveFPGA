@@ -31,12 +31,15 @@ entity NDWT_reconstruction is
 		W1 : INTEGER := 16; -- Input and output bit width 
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
-        optimization:ndwt_transform_optimization:= None
+      optimization:ndwt_transform_optimization:= None;
+		pipeline_stages: integer := 0;
+		economy: ndwt_transform_economy := Adder_economy
 	);
 	port(	
 		Ca_in :in signed_vector(level-1 downto 0)(W1-1 downto 0);
         Cd_in: in signed_vector(level-1 downto 0)(W1-1 downto 0);
-		clock: in std_logic;
+		clk: in std_logic;
+		load: in std_logic;
 		reset: in std_logic;
 		out_intermediary: out signed_vector(level-2 downto 0)(W1-1 downto 0);
         rec_out: out signed(W1-1 downto 0)
@@ -51,12 +54,15 @@ GENERIC (
 	W2 : INTEGER := 16;--32 -- coeficients width	
 	coefficient_size: INTEGER:=10;
 	n_delay:integer:=2;
-    optimization: ndwt_transform_optimization:= None
-	);
+	pipeline_stages: integer := 0;
+	optimization:ndwt_transform_optimization := None;
+	economy: ndwt_transform_economy := Adder_economy
+    );
     port(
         rec_low_in : IN signed(w2-1 DOWNTO 0):=(others=>'0');
         rec_high_in : IN signed(W2-1 downto 0):=(others=>'0');
         reset: in std_logic;
+        load: in std_logic;
         clk	: in std_logic;
         y_out: out signed(W2-1 downto 0):=(others=>'0')
     );		
@@ -67,18 +73,20 @@ signal solution:signed_vector(level-1 downto 0)(W1-1 downto 0);
 	begin
         indwt_n: for i in level-1 downto 0 generate
 			edge_condition: if i = level-1 generate
-				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**i,optimization)
+				reconstruction_0: inv_transform_NDWT generic map (W1,W2,10,2**i,pipeline_stages,optimization,economy)
 					port map(rec_low_in=>Ca_in(i),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,
-							clk=>clock,
+							load=>load,
+							clk=>clk,
 							y_out=>solution(i));
 			else generate
-                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**i,optimization)
+                reconstruction_n: inv_transform_NDWT generic map (W1,W2,10,2**i,pipeline_stages,optimization,economy)
 					port map(rec_low_in=>solution(i+1),
 							rec_high_in=>Cd_in(i),
 							reset=>reset,
-							clk=>clock,
+							load=>load,
+							clk=>clk,
 							y_out=>solution(i));
             end generate edge_condition;
 		end generate indwt_n;

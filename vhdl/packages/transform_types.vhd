@@ -30,6 +30,10 @@ package transform_types is
     Shared_multipliers,
     Shared_registers
   );
+  type ndwt_transform_economy is (
+    Adder_economy,
+    Register_economy
+  );
 
   type dwt_optimization is (
     DWT_V1,

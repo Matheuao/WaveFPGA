@@ -30,9 +30,9 @@ entity transform_NDWT is
 		W1 : INTEGER := 16; -- Input and output bit width   
 		W2 : INTEGER := 16;--32 -- coeficients width	
 		coefficient_size: INTEGER:=10;
-		n_delay:integer:=1; -- only necessary for the NDWT
-		pipeline_stages: integer := 0;
-		optimization:ndwt_transform_optimization := Shared_multipliers
+		n_delay:integer:=16; -- only necessary for the NDWT
+		pipeline_stages: integer := 1;
+		optimization:ndwt_transform_optimization := None
 		);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
@@ -105,7 +105,7 @@ gen_None : if optimization = None generate
 
 	pipeline_0: if pipeline_stages = 0 generate
 
-		mult: for i in 0 to coefficient_size-1 generate --multiplication
+		mult: for i in 0 to coefficient_size-1 generate 
 				x_mult(i)<=x*ld(i);
 				k_mult(i)<=x*hd(i);
 			end generate mult;
@@ -182,7 +182,7 @@ gen_Shared_multipliers: if optimization = Shared_multipliers generate
 	
 	pipeline_0: if pipeline_stages = 0 generate
 		
-		mult: for i in 0 to coefficient_size-1 generate --multiplication
+		mult: for i in 0 to coefficient_size-1 generate 
 			x_mult(i)<=x*ld(i);
 			
 			even_gen: if ((i+1) mod 2 = 0) generate 
@@ -192,6 +192,34 @@ gen_Shared_multipliers: if optimization = Shared_multipliers generate
 			end generate even_gen;
 		end generate mult;
 	end generate pipeline_0;
+	
+	pipeline_1: if pipeline_stages = 1 generate
+		
+		process(clk,reset)
+		begin
+			if reset = '1' then
+				for i in 0 to coefficient_size-1 loop 
+					x_mult(i)<=(others => '0');
+				end loop;
+			elsif rising_edge(clk) then
+				if load = '1' then
+					for i in 0 to coefficient_size-1 loop 
+							x_mult(i)<=x*ld(i);
+					end loop;
+				end if;
+			end if;
+		end process;
+	
+		k_mult_gen: for i in 0 to coefficient_size-1 generate 
+			
+			even_gen: if ((i+1) mod 2 = 0) generate 
+					k_mult(i)<=x_mult(coefficient_size-1-i);
+				else generate
+					k_mult(i) <= not(x_mult(coefficient_size-1-i));
+				end generate even_gen;
+		end generate k_mult_gen;
+
+	end generate pipeline_1;
 						
 	a(coefficient_size-1)<=x_mult(coefficient_size-1);
 	b(coefficient_size-1)<=k_mult(coefficient_size-1);
@@ -225,14 +253,15 @@ gen_Shared_multipliers: if optimization = Shared_multipliers generate
 					 clk=>clk,
 					 reg_out=>output_low);
 
-		pipeline_reg: reg generic map(W1=>W1) 
-			port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-					 load=>load,
-					 reset=>reset,
-					 clk=>clk,
-					 reg_out=>temp_b0);
+		--pipeline_reg_b: reg generic map(W1=>W1) 
+		--	port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
+		--			 load=>load,
+		--			 reset=>reset,
+		--			 clk=>clk,
+		--			 reg_out=>temp_b0);
 
-		temp_output_high<= temp_b0 + to_signed(coefficient_size/2,W1);
+		--temp_output_high<= temp_b0 + to_signed(coefficient_size/2,W1);
+		temp_output_high<= b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15) + to_signed(coefficient_size/2,W1);
 
 		output_highpass_coefficients: reg generic map(W1=>W1) 
 			port map(reg_in=>temp_output_high,

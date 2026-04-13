@@ -33,8 +33,10 @@ entity NDWT_decomposition is
 		W2 : INTEGER := 16; -- multiplication tap bit width
 		level:integer:= 5; -- number of levels in de transform
 		align:boolean := true; -- True/false for alignment of Ca and Cd in each level
-		optimization:ndwt_transform_optimization := None
-		);
+		optimization:ndwt_transform_optimization := None;
+		pipeline_stages: integer := 1;
+		economy: ndwt_transform_economy := Register_economy
+	);
 	port(	
 		in_x : in signed(w1-1 DOWNTO 0);
 		clk: in std_logic;
@@ -56,11 +58,40 @@ return integer is variable d_count : integer;
 variable d_previous : integer := 0;
 	
 	begin 
+		if ((optimization = None AND pipeline_stages = 0) AND economy = Register_economy) then	
+			for i in level_n downto level_n - (stage - 1) loop
+				d_count := 2 * (2 + ((2 **(i - 2)) * 9)) + d_previous;
+				d_previous := d_count;
+			end loop;
 		
-	for i in level_n downto level_n - (stage - 1) loop
-		d_count := 2 * (2 + ((2 **(i - 2)) * 9)) + d_previous;
-		d_previous := d_count;
-	end loop;
+		elsif((optimization = None AND pipeline_stages = 1) AND economy = Register_economy) then
+			for i in level_n downto level_n - (stage - 1) loop
+				d_count := 2 * (3 + ((2 **(i - 2)) * 9)) + d_previous;
+				d_previous := d_count;
+			end loop;
+		
+		elsif((optimization = None AND pipeline_stages = 0) AND economy = Adder_economy) then
+			for i in level_n downto level_n - (stage - 1) loop
+				d_count := 1+(2 * (2 + ((2 **(i - 2)) * 9))) + d_previous;
+				d_previous := d_count;
+			end loop;
+		
+		elsif((optimization = None AND pipeline_stages = 1) AND economy = Adder_economy) then
+			for i in level_n downto level_n - (stage - 1) loop
+				d_count := 1+(2 * (3 + ((2 **(i - 2)) * 9))) + d_previous;
+				d_previous := d_count;
+			end loop;
+		
+		elsif(optimization = Shared_multipliers AND pipeline_stages = 0) then
+			if level_n = 1 then
+				--d_count:=1;
+			else
+				for i in level_n downto level_n - (stage - 1) loop
+					d_count := (2 * (2 + ((2 **(i - 2)) * 9))) + d_previous;
+					d_previous := d_count;
+				end loop;
+			end if;
+		end if;
 
 	return d_count;
 end function;
@@ -71,7 +102,8 @@ component transform_NDWT
 		W2 : INTEGER := 16;--32 -- coeficients width	
 		coefficient_size: INTEGER:=10;
 		n_delay:integer:=1; -- only necessary for the NDWT
-		optimization:ndwt_transform_optimization:= None
+		pipeline_stages: integer := 0;
+		optimization:ndwt_transform_optimization := Shared_multipliers
 		);
 	port(
 		input_x : in signed(W1-1 DOWNTO 0):=(others=>'0');
@@ -104,7 +136,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
         -- decomposition
 		ndwt_n: for i in 0 to level-1 generate
 			edge_condition: if i = 0 generate
-				decomposition_0: transform_NDWT generic map(W1,W2,10,1,optimization) 
+				decomposition_0: transform_NDWT generic map(W1,W2,10,1,pipeline_stages,optimization) 
 					port map(input_x=>in_x,
 							clk=>clk ,
 							reset=>reset,
@@ -112,7 +144,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 							output_low=>low_des(0),
 							output_high=>high_des(0));
 			else generate
-                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,optimization)
+                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,pipeline_stages,optimization)
 					port map(input_x=>low_des(i-1),
 							clk=>clk,
 							reset=>reset,
@@ -123,7 +155,7 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
             
         end generate ndwt_n;
 
-		condition: if align = true generate
+		condition_true: if align = true generate
         -- shifter registers
 			delay_stage: for i in 0 to level-2 generate
 				shift_reg: shift_register generic map(W1,delay(level_n =>level, stage => (level-1-i)))
@@ -140,13 +172,13 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 					Cd(i)<= high_des(i);
 				end generate;
 			end generate output_assignment_TRUE; 
-				
-		elsif align = false generate
+		end generate condition_true;		
+		condition_false:if align = false generate
 			output_assignment_FALSE:for i in 0 to level-1 generate
 				Ca(i) <= low_des(i);
 				Cd(i) <= high_des(i);
 			end generate output_assignment_FALSE;
 			
-		end generate condition;		
+		end generate condition_false;		
 
 end main;

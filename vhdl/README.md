@@ -5,7 +5,7 @@ This directory contains the synthesizable VHDL design files for the MODWT-based 
 
 ## Requirements
 
-- GHDL (for VHDL elaboration & simulation)  
+- GHDL 4.1.0 (for VHDL elaboration & simulation)  
 - GTKWave (for waveform viewing)  
 - Python 3.7 or higher (for `visualizer.py`)  
 - Python dependencies: install via  
@@ -46,10 +46,18 @@ python visualizer.py
 
 This will display time-domain plots of the original and denoised signals.
 
-## Future Extensions
+## Testbenchs 
 
-* Add automated conversion from GHDL waveforms to CSV within `run.sh`.
-* Integrate regression checks to validate denoising performance automatically.
+### NDWT_reconstruction_tb
+
+* `[OK] pipeline 0, optimization None, Economy Register_economy `
+* `[OK] pipeline 1, optimization None, Economy Register_economy `
+* `[OK] pipeline 0, optimization None, Economy Adder_economy `
+* `[OK] pipeline 1, optimization None, Economy Adder_economy `
+* `[FAIL] pipeline 0, optimization Shared_multipliers `
+
+
+
 
 ## Citation
 

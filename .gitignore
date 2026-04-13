@@ -4,6 +4,8 @@
 /ideas
 /synthesis
 /.vscode
+/vhdl/ghdl
+*.o
 *.vcd
 *.cf
 *.bak

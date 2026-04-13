@@ -59,8 +59,6 @@ begin
 	elsif rising_edge(clock) then
 		if enable = '1' then 
 			delay(0)<=x_in;	
-		else 
-			delay(0)<=(others=>'0');
 		end if;
 	
 		for i in 1 to DELAY_W-1 loop 

@@ -21,7 +21,6 @@
 --  Copyright (c) 2026 Matheus Araújo de Oliveira
 -- ============================================================================
 
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -35,8 +34,10 @@ entity NDWT_reconstruction_tb is
 end entity NDWT_reconstruction_tb;
 
 architecture TestB of NDWT_reconstruction_tb is
-
-  constant ordem : natural := 3;
+  constant TB_optimization : ndwt_transform_optimization := Shared_multipliers;
+  constant TB_economy : ndwt_transform_economy := Adder_economy;
+  constant pipeline: integer := 0;
+  constant levels : integer := 1;
 
   signal Entrada   : signed(15 downto 0) := (others => '0');
   signal fs        : std_logic := '0';
@@ -44,16 +45,22 @@ architecture TestB of NDWT_reconstruction_tb is
   signal finished  : std_logic := '0';
 
   constant period  : time := 20 us;
-  constant levels : integer := 5;
   signal Ca: signed_vector(levels-1 downto 0)(15 downto 0);
   signal Cd: signed_vector(levels-1 downto 0)(15 downto 0);
   signal out_intermediary: signed_vector(levels-2 downto 0)(15 downto 0);
   signal output : signed(15 downto 0);
 
+
 begin
 
   DUT_decomposition: entity work.NDWT_decomposition
-    generic map(W1=>16, W2=>16, level=>levels, align=>true, optimization=>None)
+    generic map(W1=>16, 
+				W2=>16, 
+				level=>levels, 
+				align=>true, 
+				optimization=>TB_optimization,
+				pipeline_stages=>pipeline,
+				economy=>TB_economy)
     port map (
       in_x => Entrada,
       clk => fs,
@@ -64,20 +71,42 @@ begin
     );
   
   DUT_reconstruction: entity work.NDWT_reconstruction
-    generic map(W1=>16, W2=>16, level=>levels, optimization=>None)
+    generic map(W1=>16,
+                W2=>16, 
+                level=>levels, 
+                optimization=>TB_optimization, 
+                pipeline_stages=>pipeline,
+				economy=>TB_economy)
     port map (
       Ca_in => Ca,
       Cd_in => Cd,
-      clock => fs,
+      clk => fs,
+	  load =>'1',
       reset => rst,
       out_intermediary => out_intermediary,
       rec_out => output
     );
 
-
-
   -- Clock signal generation
   fs <= not fs after period/2 when finished /= '1' else '0';
+
+  report_process :process
+  begin
+	report "Optimization = " &
+      ndwt_transform_optimization'image(TB_optimization);
+    
+	report "Pipeline stages = " & 
+	integer'image(pipeline);
+
+	report "Economy = " & 
+      ndwt_transform_economy'image(TB_economy);	
+
+	report "Levels = " & 
+		integer'image(levels);
+      wait;
+  end process;
+
+
 
   -- Reading stimulus
   stimulus_process: process

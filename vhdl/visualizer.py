@@ -83,31 +83,110 @@ def hex_to_int16(caminho_arquivo):
             valores_16bits.append(valor)
 
         return valores_16bits
-def delay(type = "modwt_multi_level", level=0, n_coeficient = 10):
-    '''
-    function that modeling the delay in each level of decompositon
+def delay(transform_type="modwt_multi_level", config=None):
+    """
+    Compute the analytical latency for temporal alignment in NDWT/DWT.
+
+    This function models the cumulative delay introduced at each decomposition 
+    level of the transform. It ensures that detail and approximation coefficients 
+    are correctly synchronized for visualization and reconstruction stages.
+
+    Args:
+        transform_type (str): The type of wavelet transform (e.g., "modwt_multi_level").
+        config (dict, optional): Hardware configuration parameters, including:
+            - 'level' (int): Current decomposition level.
+            - 'n_coefficients' (int): Filter length (number of taps).
+            - 'pipeline' (int): Number of pipeline stages (0 or 1).
+            - 'optimization' (str): Resource optimization strategy.
+            - 'economy' (str): Power or area efficiency mode.
+
+    Returns:
+        int: The total number of samples required for data alignment.
+    """
+    calculate_delay = 1
+
+    default_config = {
+    "level": 0,
+    "n_coefficients": 10,
+    "optimization": "None",
+    "economy": "Register_economy",
+    "pipeline": 0
+    }
     
-    #para 2 niveis delay de 37
-    #para 3 niveis delay de 77
-    #para 4 niveis delay de 153
-    #para 5 niveis delay de 301
-    '''
-    if type ==  "modwt_multi_level":
-        d_previous = 0
-        delay = 0
+    cfg = default_config.copy()
 
-        for i in range(level,1,-1):
-            index = i-2
-            delay = 2 * (2 + ((2**index)*(n_coeficient-1))) 
-            delay += d_previous
-            d_previous = delay
+    if config:
+        cfg.update(config)
 
-    return delay + 15
+    if (transform_type ==  "modwt_multi_level"):
+        
+        if (cfg["optimization"] == "None" and 
+            cfg["economy"] == "Register_economy" and 
+            cfg["pipeline"] == 0):
+           
+            d_previous = 0
+            delay = 0
+
+            for i in range(cfg["level"],1,-1):
+                index = i-2
+                delay = 2 * (2 + ((2**index)*(cfg["n_coefficients"]-1)))     
+                delay += d_previous
+                d_previous = delay
+            calculate_delay = delay+15
+
+        elif (cfg["optimization"] == "None" and 
+            cfg["economy"] == "Register_economy" and 
+            cfg["pipeline"] == 1):
+           
+            d_previous = 0
+            delay = 0
+
+            for i in range(cfg["level"],1,-1):
+                index = i-2
+                delay = 2 * (3 + ((2**index)*(cfg["n_coefficients"]-1))) 
+                delay += d_previous
+                d_previous = delay
+            
+            calculate_delay = delay+17
+
+        elif (cfg["optimization"] == "None" and 
+            cfg["economy"] == "Adder_economy" and 
+            cfg["pipeline"] == 0):
+           
+            d_previous = 0
+            delay = 0
+
+            for i in range(cfg["level"],1,-1):
+                index = i-2
+                delay = 1 + (2 * (2 + ((2**index)*(cfg["n_coefficients"]-1))))     
+                delay += d_previous
+                d_previous = delay
+
+            calculate_delay = delay+16
+        
+        elif (cfg["optimization"] == "None" and 
+            cfg["economy"] == "Adder_economy" and 
+            cfg["pipeline"] == 1):
+           
+            d_previous = 0
+            delay = 0
+
+            for i in range(cfg["level"],1,-1):
+                index = i-2
+                delay = 1 + (2 * (3 + ((2**index)*(cfg["n_coefficients"]-1))))     
+                delay += d_previous
+                d_previous = delay
+
+            calculate_delay = delay+18
+ 
+    return calculate_delay
 
 def plot_inout(entrada, saida, delay = 15):
 
     entrada = np.array(entrada)
     saida = np.array(saida)
+
+    print(f"delay = {delay}")
     
     tam = len(saida)
 
@@ -157,17 +236,19 @@ def denoising_tb(in_path = 'stimulus/sweep_20_4k_fs8k.hex',
     saida = hex_to_int16(out_path)
     entrada = hex_to_int16(in_path)
 
-    plot_inout(entrada, saida, delay = delay(level = levels))
+    plot_inout(entrada, saida, delay)
 
-def NDWT_reconstruction_tb(in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
-           out_path = 'stimulus/reconstruction_out.hex',
-           levels = 5):
+def NDWT_reconstruction_tb(cfg,
+                           in_path = 'stimulus/sweep_20_4k_fs8k.hex', 
+                            out_path = 'stimulus/reconstruction_out.hex',):
 
 
     saida = hex_to_int16(out_path)
     entrada = hex_to_int16(in_path)
 
-    plot_inout(entrada, saida, delay = delay(level = levels))
+    plot_inout(entrada,
+               saida, 
+               delay = delay(transform_type="modwt_multi_level",config = cfg))
 
 def NDWT_decomposition_tb(stimulus_path = "stimulus"):
     """
@@ -243,5 +324,11 @@ def NDWT_decomposition_tb(stimulus_path = "stimulus"):
 #denoising_tb()
 
 #NDWT_decomposition_tb()
-
-NDWT_reconstruction_tb()
+config = {
+    "level": 2,
+    "n_coefficients": 10,
+    "optimization": "None",
+    "economy": "Adder_economy",
+    "pipeline": 1
+    }
+NDWT_reconstruction_tb(cfg=config)
