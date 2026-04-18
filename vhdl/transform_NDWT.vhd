@@ -186,9 +186,9 @@ gen_Shared_multipliers: if optimization = Shared_multipliers generate
 			x_mult(i)<=x*ld(i);
 			
 			even_gen: if ((i+1) mod 2 = 0) generate 
-				k_mult(i)<=x_mult(coefficient_size-1-i);
+				k_mult(i)<=not(x_mult(coefficient_size-1-i));
 			else generate
-				k_mult(i) <= not(x_mult(coefficient_size-1-i));
+				k_mult(i) <= x_mult(coefficient_size-1-i);
 			end generate even_gen;
 		end generate mult;
 	end generate pipeline_0;
@@ -253,15 +253,14 @@ gen_Shared_multipliers: if optimization = Shared_multipliers generate
 					 clk=>clk,
 					 reg_out=>output_low);
 
-		--pipeline_reg_b: reg generic map(W1=>W1) 
-		--	port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
-		--			 load=>load,
-		--			 reset=>reset,
-		--			 clk=>clk,
-		--			 reg_out=>temp_b0);
+		pipeline_reg_b: reg generic map(W1=>W1) 
+			port map(reg_in=>b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),
+					 load=>load,
+					 reset=>reset,
+					 clk=>clk,
+					 reg_out=>temp_b0);
 
-		--temp_output_high<= temp_b0 + to_signed(coefficient_size/2,W1);
-		temp_output_high<= b(0)((W1+W2)-2 downto ((W1+W2)-2) - 15) + to_signed(coefficient_size/2,W1);
+		temp_output_high<= temp_b0 + to_signed(coefficient_size/2,W1);
 
 		output_highpass_coefficients: reg generic map(W1=>W1) 
 			port map(reg_in=>temp_output_high,

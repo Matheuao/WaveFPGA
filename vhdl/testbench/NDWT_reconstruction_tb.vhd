@@ -76,7 +76,7 @@ begin
                 level=>levels, 
                 optimization=>TB_optimization, 
                 pipeline_stages=>pipeline,
-				economy=>TB_economy)
+				        economy=>TB_economy)
     port map (
       Ca_in => Ca,
       Cd_in => Cd,

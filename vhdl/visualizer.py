@@ -178,6 +178,20 @@ def delay(transform_type="modwt_multi_level", config=None):
                 d_previous = delay
 
             calculate_delay = delay+18
+       
+        elif (cfg["optimization"] == "Shared_multipliers" and 
+            cfg["pipeline"] == 0):
+           
+            d_previous = 2
+            delay = 0
+
+            for i in range(cfg["level"],1,-1):
+                index = i-2
+                delay = 1 + (2 * (3 + ((2**index)*(cfg["n_coefficients"]-1))))     
+                delay += d_previous
+                d_previous = delay
+
+            calculate_delay = 17
  
     return calculate_delay
 
@@ -325,10 +339,10 @@ def NDWT_decomposition_tb(stimulus_path = "stimulus"):
 
 #NDWT_decomposition_tb()
 config = {
-    "level": 2,
+    "level": 1,
     "n_coefficients": 10,
-    "optimization": "None",
+    "optimization": "Shared_multipliers",
     "economy": "Adder_economy",
-    "pipeline": 1
+    "pipeline": 0
     }
 NDWT_reconstruction_tb(cfg=config)

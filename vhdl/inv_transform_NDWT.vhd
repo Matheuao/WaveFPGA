@@ -288,12 +288,16 @@ begin
 
         delay_line_sum:for i in 0 to coefficient_size-1 generate
             even_gen: if ((i+1) mod 2 = 0) generate 
-                k_x_sum(i)<=a_delay_line(i)+b_delay_line(i);
+                 k_x_sum(i)<= a_delay_line(i)-b_delay_line(coefficient_size-1-i);
+
             else generate
-                k_x_sum(i)<= a_delay_line(i)-b_delay_line(i);--not(b_delay_line(coefficient_size-1-i));
+                k_x_sum(i)<=a_delay_line(i)+b_delay_line(coefficient_size-1-i);
+
             end generate even_gen;
         end generate delay_line_sum;
-        
+    
+
+
         --delay line convolution multiplication
         pipeline_0: if pipeline_stages = 0 generate
     
@@ -322,19 +326,7 @@ begin
             end process;
         end generate pipeline_1;
                             
-        c(coefficient_size-1)<=c_mult(coefficient_size-1);
-            
-        sum :for i in coefficient_size-1 downto 1 generate -- FIR transposed form
-
-            delay_a: shift_register generic map((W1+W2),n_delay) 
-                port map(x_in=>c(i),
-                            clock=>clk,
-                            reset=>reset,
-                            enable=>load,
-                            x_out=>conect_delay_c(i));
-                
-            c(i-1)<=conect_delay_c(i)+c_mult(i-1);  
-        end generate sum;
+        c(0)<=c_mult(0)+c_mult(1)+c_mult(2)+c_mult(3)+c_mult(4)+c_mult(5)+c_mult(6)+c_mult(7)+c_mult(8)+c_mult(9);
 
         pipeline_reg: reg generic map(W1=>W1) 
             port map(reg_in=>c(0)((W1+W2)-2 downto ((W1+W2)-2) - 15),

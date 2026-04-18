@@ -134,51 +134,89 @@ signal out_delay:signed_vector(level-1 downto 0)(W1-1 downto 0);
 
 	begin
         -- decomposition
-		ndwt_n: for i in 0 to level-1 generate
-			edge_condition: if i = 0 generate
-				decomposition_0: transform_NDWT generic map(W1,W2,10,1,pipeline_stages,optimization) 
-					port map(input_x=>in_x,
-							clk=>clk ,
-							reset=>reset,
-							load=> load,
-							output_low=>low_des(0),
-							output_high=>high_des(0));
-			else generate
-                decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,pipeline_stages,optimization)
-					port map(input_x=>low_des(i-1),
-							clk=>clk,
-							reset=>reset,
-							load=> load,
-							output_low=>low_des(i),
-							output_high=>high_des(i));
-			end generate edge_condition;
-            
-        end generate ndwt_n;
+		shared_multipliers_exception: if optimization = Shared_multipliers generate
+			ndwt_n: for i in 0 to level-1 generate
+				edge_condition: if i = 0 generate
+					decomposition_0: transform_NDWT generic map(W1,W2,10,1,pipeline_stages,optimization) 
+						port map(input_x=>in_x,
+								clk=>clk ,
+								reset=>reset,
+								load=> load,
+								output_low=>low_des(0),
+								output_high=>high_des(0));
+				else generate
+					decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,pipeline_stages,optimization)
+						port map(input_x=>low_des(i-1),
+								clk=>clk,
+								reset=>reset,
+								load=> load,
+								output_low=>low_des(i),
+								output_high=>high_des(i));
+				end generate edge_condition;	
+			end generate ndwt_n;
 
-		condition_true: if align = true generate
-        -- shifter registers
-			delay_stage: for i in 0 to level-2 generate
-				shift_reg: shift_register generic map(W1,delay(level_n =>level, stage => (level-1-i)))
-					port map(x_in=>high_des(i),
-							clock=>clk,
-							reset=>reset,
-							enable=>load,
-							x_out=>Cd(i));
-				end generate delay_stage;
+			condition_true: if align = true generate
+			-- shifter registers
+				
+					shift_reg: shift_register generic map(W1,1)
+						port map(x_in=>low_des(0),
+								clock=>clk,
+								reset=>reset,
+								enable=>load,
+								x_out=>Ca(0));
+					Cd(0)<=high_des(0);
+					--Cd(0)<=high_des(0);
+
+				
+			end generate condition_true;		
 			
-			output_assignment_TRUE: for i in 0 to level-1 generate
-				Ca(i)<= low_des(i);
-				sub_condition:if i > level-2 generate
-					Cd(i)<= high_des(i);
-				end generate;
-			end generate output_assignment_TRUE; 
-		end generate condition_true;		
-		condition_false:if align = false generate
-			output_assignment_FALSE:for i in 0 to level-1 generate
-				Ca(i) <= low_des(i);
-				Cd(i) <= high_des(i);
-			end generate output_assignment_FALSE;
-			
-		end generate condition_false;		
+		else generate
+			ndwt_n: for i in 0 to level-1 generate
+				edge_condition: if i = 0 generate
+					decomposition_0: transform_NDWT generic map(W1,W2,10,1,pipeline_stages,optimization) 
+						port map(input_x=>in_x,
+								clk=>clk ,
+								reset=>reset,
+								load=> load,
+								output_low=>low_des(0),
+								output_high=>high_des(0));
+				else generate
+					decomposition_n: transform_NDWT generic map(W1,W2,10,2**i,pipeline_stages,optimization)
+						port map(input_x=>low_des(i-1),
+								clk=>clk,
+								reset=>reset,
+								load=> load,
+								output_low=>low_des(i),
+								output_high=>high_des(i));
+				end generate edge_condition;
+				
+			end generate ndwt_n;
+
+			condition_true: if align = true generate
+			-- shifter registers
+				delay_stage: for i in 0 to level-2 generate
+					shift_reg: shift_register generic map(W1,delay(level_n =>level, stage => (level-1-i)))
+						port map(x_in=>high_des(i),
+								clock=>clk,
+								reset=>reset,
+								enable=>load,
+								x_out=>Cd(i));
+					end generate delay_stage;
+				
+				output_assignment_TRUE: for i in 0 to level-1 generate
+					Ca(i)<= low_des(i);
+					sub_condition:if i > level-2 generate
+						Cd(i)<= high_des(i);
+					end generate;
+				end generate output_assignment_TRUE; 
+			end generate condition_true;		
+			condition_false:if align = false generate
+				output_assignment_FALSE:for i in 0 to level-1 generate
+					Ca(i) <= low_des(i);
+					Cd(i) <= high_des(i);
+				end generate output_assignment_FALSE;
+				
+			end generate condition_false;	
+		end generate shared_multipliers_exception;	
 
 end main;
